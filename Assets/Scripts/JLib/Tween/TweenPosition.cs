@@ -1,36 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace JLib
 {
-    [AddComponentMenu("JTween/TweenLocalRotation")]
-    public class TweenLocalRotation : Tween
+    [AddComponentMenu("JTween/TweenPosition")]
+    public class TweenPosition : Tween
     {
         [SerializeField]
         Vector3 from = Vector3.zero;
-        
+
         [SerializeField]
         Vector3 to = Vector3.zero;
 
-
         protected override void OnOnEnable()
         {
-            transform.localRotation = Quaternion.Euler(from);
+            transform.position = from;
         }
 
         protected override void OnTweenUpdate()
         {
-            Vector3 targetRotation = Vector3.Lerp(from, to, normalTime * curveValue);
-            transform.localRotation = Quaternion.Euler( targetRotation );
+            Vector3 targetPosition = Vector3.Lerp(from, to, normalTime * curveValue);
+            Debug.Log( normalTime * curveValue );
+            transform.position = targetPosition;
         }
+
 
         public override void LoopMethod()
         {
-            startTime = JTime.Time;
             duringTime = 0f;
+            startTime = JTime.Time;
         }
 
         public override void PingpongMethod()

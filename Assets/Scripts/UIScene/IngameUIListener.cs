@@ -29,9 +29,4 @@ public class IngameUIListener : MonoBehaviour
 
         JLib.ParameterPool.ReturnPool(p);
     }
-    
-    public void ClickCareButton()
-    {
-
-    }
 }

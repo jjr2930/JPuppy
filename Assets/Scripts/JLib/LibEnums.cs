@@ -50,6 +50,8 @@ namespace JLib
         AddScene,
         UnloadScene,
         DoTween,
+        ShowTooltip,
+        HideTooltip,
         ShowEffect,
         AsycResourceLoad,
     }

@@ -56,10 +56,11 @@ namespace JLib
 
         void LoadLocalizeTable()
         {
-            if(!App.Instance.IsLoadLocalizeTable)
-            {
-                return;
-            }
+
+            //if(!App.Instance.IsLoadLocalizeTable)
+            //{
+            //    return;
+            //}
 
             string localTablePath = tablePathTable["LocalizeTable"];
             string localJson = JResources.Load<TextAsset>(localTablePath).text;

@@ -8,6 +8,7 @@
 		_LayerCount("Layer Count",Int) = 10
 		_LocalVelocity("Local Velocity",Vector) = (0,0,0,0)
 		_Gravity("Gravity", Vector) = (0, 0, 0, 0)
+		_GravityPow("GravityPow", Float) = 1.0
 		_WindVelocity("WindVelocity", Vector) = (0, 0, 0, 0)
 	}
 	SubShader
@@ -16,6 +17,27 @@
 		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" "IgnoreProjector" = "True" }
 		LOD 100
 
+		Pass
+		{
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				FSInput o;
+				o.position = mul(UNITY_MATRIX_MVP, i.position);
+				o.uv = i.uv;
+				return o;
+			}
+
+			float4 frag(FSInput i) : SV_Target
+			{
+				float4 o = tex2D(_MainTex,i.uv);
+				return o;
+			}
+			ENDCG
+		}
 		Pass //1
 		{
 			ZWrite Off
@@ -28,7 +50,7 @@
 			{
 				return VS(i,1);
 			}
-		ENDCG
+			ENDCG
 		}
 
 		Pass //2
@@ -56,7 +78,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 3;
 				return VS(i,3);
 			}
 			ENDCG
@@ -72,7 +93,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 4;
 				return VS(i,4);
 			}
 			ENDCG
@@ -88,7 +108,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 5;
 				return VS(i, 5);
 			}
 			ENDCG
@@ -104,7 +123,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 6;
 				return VS(i,6);
 			}
 			ENDCG
@@ -120,7 +138,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 7;
 				return VS(i,7);
 			}
 			ENDCG
@@ -137,7 +154,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 8;
 				return VS(i,8);
 			}
 			ENDCG
@@ -153,7 +169,6 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 9;
 				return VS(i,9);
 			}
 			ENDCG
@@ -169,8 +184,157 @@
 			#include "FurMethods.cginc"
 			FSInput vert(VSInput i)
 			{
-				_step = 10;
 				return VS(i,10);
+			}
+			ENDCG
+		}
+
+		Pass //11
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,11);
+			}
+			ENDCG
+		}
+
+		Pass //12
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,12);
+			}
+			ENDCG
+		}
+
+		Pass //13
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,13);
+			}
+			ENDCG
+		}
+
+		Pass //14
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,14);
+			}
+			ENDCG
+		}
+
+		Pass //15
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,15);
+			}
+			ENDCG
+		}
+
+		Pass //16
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,16);
+			}
+			ENDCG
+		}
+
+		Pass //17
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,17);
+			}
+			ENDCG
+		}
+
+		Pass //18
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,18);
+			}
+			ENDCG
+		}
+
+		Pass //19
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,19);
+			}
+			ENDCG
+		}
+
+		Pass //20
+		{
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment FS
+			#include "FurMethods.cginc"
+			FSInput vert(VSInput i)
+			{
+				return VS(i,20);
 			}
 			ENDCG
 		}

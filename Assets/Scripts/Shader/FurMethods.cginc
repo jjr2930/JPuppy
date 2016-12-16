@@ -1,4 +1,6 @@
-﻿#include "UnityCG.cginc"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+#include "UnityCG.cginc"
 
 float3 _Gravity;
 float3 _WindVelocity;
@@ -8,8 +10,7 @@ sampler2D _MaskTex;
 float4 _MaskTex_ST;
 float _Length;
 float _LayerCount;
-float _step;
-
+float _GravityPow;
 struct VSInput
 {
 	float4 position : POSITION;
@@ -25,16 +26,29 @@ struct FSInput
 
 float4 GetPosition(float4 originPos, float3 normal, float step, float layerCount, float length)
 {
-	float4 worldVertexPos = mul(UNITY_MATRIX_M, originPos);
-	float4 worldNormal = mul(UNITY_MATRIX_M, normal);
-	float4 worldGravity = mul(UNITY_MATRIX_M, _Gravity);
-	float3 temp = worldVertexPos.xyz + normal *length * step / layerCount;
-	float3 delta = _Gravity + _WindVelocity - _LocalVelocity;
-	//delta = normalize(delta);
-	delta = delta * step / layerCount;
-	temp += delta;
-	float4 o = float4(temp, originPos.w);
-	return o;
+	float layerRate = step / layerCount;
+	float powRate = pow(layerRate, _GravityPow);
+	float3 p = originPos.xyz;
+	float3 g = _Gravity.xyz;
+	float3 n = normalize(normal) * length * layerRate;
+	float3 w = _WindVelocity * powRate;
+	float3 l = _LocalVelocity * powRate;
+	p += n;
+	p += g * powRate;
+	p += w;
+	p -= l;
+	return float4(p,1);
+
+	//float layerRate = step / layerCount;
+	//float4 worldVertexPos = mul(unity_ObjectToWorld, originPos);
+	//float4 worldNormal = mul(unity_ObjectToWorld, normal);
+	//float4 worldGravity = float4(_Gravity.xyz, 0) * pow(layerRate, _GravityPow);
+	//float3 windVelocity = _WindVelocity * pow(layerRate, _GravityPow);
+	//float3 localVelocity = _LocalVelocity * pow(layerRate, _GravityPow);
+	//
+	//worldVertexPos += worldNormal * layerRate;
+	//worldVertexPos += worldGravity;
+	//return worldVertexPos;
 }
 
 float4 FS(FSInput i) : SV_Target
@@ -52,8 +66,7 @@ FSInput VS(VSInput i, float step)
 	FSInput o;
 	o.uv = i.uv;
 	o.position = GetPosition(i.position, i.normal, step, _LayerCount, _Length);
-	o.position = mul(UNITY_MATRIX_VP, o.position);
-	_step++;
+	o.position = mul(UNITY_MATRIX_MVP, o.position);
 	return o;
 }
 	

@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using JLib;
-public class DogCreateEventForUGUI : EventTrigger
+public class DogCreateEventForUGUI : MonoBehaviour
 {
     [SerializeField]
     UIID id;
-    public override void OnSelect(BaseEventData eventData)
-    {
-        Debug.LogFormat("OnSelected {0}", id);
-        JUIEventParameter p = ParameterPool.GetParameter<JUIEventParameter>();
-        p.type = EventTriggerType.Select;
-        GlobalEventQueue.EnQueueEvent(id, p);
-    }
 
+    [SerializeField]
+    EventTriggerType type;
+
+    public void CreateEvent()
+    {
+        DogUIEventParameter p = ParameterPool.GetParameter<DogUIEventParameter>();
+        p.type = type;
+        GlobalEventQueue.EnQueueEvent( id , p );
+        Debug.LogFormat( "id : {0}, type : {1}" , id , type );
+    }
 }
 

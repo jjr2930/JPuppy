@@ -27,8 +27,8 @@ namespace JLibEditor
     {
         const string tableParent = "Tables";
         const string tablePath = "TablePath";
-
-        [MenuItem("Window/Edit TablePath")]
+        
+        [MenuItem( "Tools/TableEditor/Edit TablePath" )]
         public static void DrawWindow()
         {
             TablePathTableEditor window = (TablePathTableEditor)EditorWindow.GetWindow(typeof(TablePathTableEditor));

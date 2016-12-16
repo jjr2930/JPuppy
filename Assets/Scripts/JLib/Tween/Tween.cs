@@ -24,16 +24,18 @@ namespace JLib
         [SerializeField]
         protected UnityEvent callback = null;
 
+        [SerializeField]
+        protected bool PlayWhenAwake = false;
+
         protected float startTime = 0f;
         protected float normalTime = 0f;
         protected float duringTime = 0f;
         protected float curveValue = 0f;
         protected bool isEnabledBefore= false;
-        
         void Awake()
         {
             TweenManager.AddTween(this);
-            this.enabled = false;
+            this.enabled = PlayWhenAwake;
             OnAwake();
         } 
 
@@ -75,12 +77,14 @@ namespace JLib
 
                 case TweenMode.Loop:
                     LoopMethod();
+                    enabled =true;
                     break;
 
                 case TweenMode.Pingpong:
                     PingpongMethod();
                     break;
             }
+            OnOnDisable();
         }
 
         public void Play()
@@ -99,5 +103,6 @@ namespace JLib
         protected abstract void OnOnEnable();        
         protected abstract void OnTweenUpdate();
         protected virtual void OnAwake() { }
+        protected virtual void OnOnDisable() { }
     }
 }

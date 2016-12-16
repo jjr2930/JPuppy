@@ -1,1 +1,1 @@
-{"tablesPath":[{"name":"ResourcesTable","path":"ResourcesTable"},{"name":"LocalizeTable","path":"LocalizeTable"}]}
+{"tablesPath":[{"name":"LocalizeTable","path":"LocalizeTable"},{"name":"ResourcesTable","path":"ResourcesTable"}]}
