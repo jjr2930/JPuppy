@@ -6,10 +6,10 @@ using System.Text;
 using UnityEngine;
 namespace JLib
 {
-    public class TableLoader : Singletone<TableLoader>
+    public class TableLoader : MonoSingle<TableLoader>
     {
         Dictionary<string, string> tablePathTable = new Dictionary<string, string>();
-        public Dictionary<string, string> TablePath
+        public Dictionary<string , string> TablePath
         {
             get
             {
@@ -24,23 +24,23 @@ namespace JLib
             Instance.LoadTable();
         }
 
-        public TableLoader()
+        public void Awake()
         {
             LoadTable();
         }
 
         public void LoadTable()
         {
-            LoadTablePathTable();
-            LoadLocalizeTable();
-            LoadResourcesTable();
+            //LoadTablePathTable();
+            //LoadLocalizeTable();
+            //LoadResourcesTable();
         }
 
         void LoadResourcesTable()
         {
             string resourcesTablePath = Instance.tablePathTable["ResourcesTable"];
             TextAsset jsonTable = JResources.Load<TextAsset>(resourcesTablePath);
-            ResourcesTable.LoadFromJson(jsonTable.text);
+            ResourcesTable.LoadFromJson( jsonTable.text );
         }
 
         void LoadTablePathTable()
@@ -53,28 +53,12 @@ namespace JLib
                 tablePathTable.Add( tpt.pathTable[ i ].name , tpt.pathTable[ i ].path );
             }
         }
+        
 
-        void LoadLocalizeTable()
+        public int MapLocalizationToIndex( SystemLanguage lang )
         {
-
-            //if(!App.Instance.IsLoadLocalizeTable)
-            //{
-            //    return;
-            //}
-
-            string localTablePath = tablePathTable["LocalizeTable"];
-            string localJson = JResources.Load<TextAsset>(localTablePath).text;
-            using (LocalizeTableTemp tempTable = JsonUtility.FromJson<LocalizeTableTemp>(localJson))
-            {
-                string location = Application.systemLanguage.ToString();
-                for (int i = 0; i < tempTable.data.Count; i++)
-                {
-                    if (tempTable.data[i].local == location)
-                    {
-                        LocalizeTable.AddLocalString(tempTable.data[i].key, tempTable.data[i].value);
-                    }
-                }
-            }
+            Enum_Local loc = (Enum_Local) Enum.Parse(typeof(Enum_Local),lang.ToString());
+            return ( int )loc;
         }
     }
 }

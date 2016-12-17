@@ -23,7 +23,7 @@ namespace JLib
         public static void Initialize()
         {
             //find Instance all
-            T[] objects = GameObject.FindObjectsOfType<T>();
+            T[] objects = FindObjectsOfType<T>();
             switch (objects.Length)
             {
                 case 0:

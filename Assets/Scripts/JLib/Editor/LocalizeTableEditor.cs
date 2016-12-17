@@ -1,35 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using JLib;
 namespace JLibEditor
 {
-    public enum Enum_Local
-    {
-        Korean = 0,
-        English,
-        Max,
-    }
-
-    [System.Serializable]
-    public class LocalizeTableEditorDataList
-    {
-        public List<LocalizeTableEditorData> table = new List<LocalizeTableEditorData>();
-    }
-
-    [System.Serializable]
-    public class LocalizeTableEditorData
-    {
-        public string key;
-        public List<string> list = new List<string>();
-        public LocalizeTableEditorData()
-        {
-            key = "";
-            for( int i = 0 ; i < ( int )Enum_Local.Max ; i++ )
-            {
-                list.Add( "" );
-            }
-        }
-    }
+ 
     public class LocalizeTableEditor : EditorWindow
     {
         string path = "";

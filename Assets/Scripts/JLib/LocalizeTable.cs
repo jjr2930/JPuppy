@@ -6,49 +6,100 @@ using System.Text;
 using UnityEngine;
 namespace JLib
 {
-    [Serializable]
-    public class LocalizeData
+    public enum Enum_Local
+    {
+        Korean = 0,
+        English,
+        Max,
+    }
+
+    [System.Serializable]
+    public class LocalizeTableEditorDataList
+    {
+        public List<LocalizeTableEditorData> table = new List<LocalizeTableEditorData>();
+
+    }
+
+    [System.Serializable]
+    public class LocalizeTableEditorData
     {
         public string key;
-        public string local;
-        public string value;
-    }
-
-    /// <summary>
-    /// 테이블을 통째로 읽을 때 쓰일 임시 클래스
-    /// </summary>
-    [Serializable]
-    public class LocalizeTableTemp : IDisposable
-    {
-        public List<LocalizeData> data;
-
-        public void Dispose()
+        public List<string> list = new List<string>();
+        public LocalizeTableEditorData()
         {
-            data.Clear();
+            key = "";
+            for( int i = 0 ; i < ( int )Enum_Local.Max ; i++ )
+            {
+                list.Add( "" );
+            }
         }
     }
+    //[Serializable]
+    //public class LocalizeData
+    //{
+    //    public string key;
+    //    public string local;
+    //    public string value;
+    //}
 
-    public class LocalizeTable : Singletone<LocalizeTable>
+    ///// <summary>
+    ///// 테이블을 통째로 읽을 때 쓰일 임시 클래스
+    ///// </summary>
+    //[Serializable]
+    //public class LocalizeTableTemp : IDisposable
+    //{
+    //    public List<LocalizeData> data;
+
+    //    public void Dispose()
+    //    {
+    //        data.Clear();
+    //    }
+    //}
+
+    public class LocalizeTable : MonoSingle<LocalizeTable>
     {
+        const string TABLE_PATH = "Tables/LocalizeTable";
         Dictionary<string, string> table = new Dictionary<string, string>();
 
-        public static string GetLocalString(string key)
+        public void Awake()
         {
-            string founded = null;
-            if(Instance.table.TryGetValue(key, out founded))
+            string localTablePath = TABLE_PATH;
+            TextAsset ta = JResources.Load<TextAsset>(localTablePath);
+            string localJson = ta.text;
+
+            LocalizeTableEditorDataList tempTable = JsonUtility.FromJson<LocalizeTableEditorDataList>( localJson );
+            int index = MapLocalizationToIndex(Application.systemLanguage);
+            for( int i = 0 ; i < tempTable.table.Count ; i++ )
+            {
+                string key = tempTable.table[i].key;
+                string value = tempTable.table[i].list[index];
+                LocalizeTable.AddLocalString( key , value );
+            }
+
+        }
+
+        public int MapLocalizationToIndex( SystemLanguage lang )
+        {
+            Enum_Local loc = (Enum_Local) Enum.Parse(typeof(Enum_Local),lang.ToString());
+            return ( int )loc;
+        }
+        public static string GetLocalString( string key )
+        {
+            string founded = "";
+            if( Instance.table.TryGetValue( key , out founded ) )
             {
                 return founded;
             }
             else
             {
-                Debug.LogErrorFormat("LocalizeTable => {0} is not founded", key);
+                Debug.LogErrorFormat( "LocalizeTable => {0} is not founded" , key );
             }
             return "";
         }
 
-        public static void AddLocalString(string key, string value)
+        public static void AddLocalString( string key , string value )
         {
-            Instance.table.Add(key, value);
+            Instance.table.Add( key , value );
         }
     }
 }

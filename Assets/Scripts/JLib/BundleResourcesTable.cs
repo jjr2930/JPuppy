@@ -16,17 +16,17 @@ namespace JLib
         public List<BundlePathData> bundleList = new List<BundlePathData>();
     }
 
-    public class BundleResourcesTable : Singletone<BundleResourcesTable>
+    public class BundleResourcesTable : MonoSingle<BundleResourcesTable>
     {
+        const string TABLE_PATH = "Tables/BundleTable";
         /// <summary>
         /// key : name, value : path
         /// </summary>
         Dictionary<string, string> bundlePathes = new Dictionary<string, string>();
 
-        public BundleResourcesTable()
+        public void Awake()
         {
-            string path = TableLoader.Instance.TablePath["TablePathTable"];
-            TextAsset bundleList = JResources.Load<TextAsset>(path);
+            TextAsset bundleList = JResources.Load<TextAsset>(TABLE_PATH);
             BundlePathList tempList = JsonUtility.FromJson<BundlePathList>(bundleList.text);
             for( int i = 0 ; i < tempList.bundleList.Count ; i++ )
             {

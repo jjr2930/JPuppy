@@ -53,23 +53,18 @@ namespace JLib
         JPlatformType _runtimePlatfom = JPlatformType.None;
         Vector3 gravity = Vector3.zero;
 
-        [SerializeField]
-        bool isLoadTable = false;
-
-        [SerializeField]
-        bool isLoadLocalizeTable = false;
 
         [SerializeField]
         UnityEvent appStartMethod = null;
 
-        #region property
-        public bool IsLoadTable { get { return isLoadTable; } }
+        //#region property
+        //public bool IsLoadTable { get { return isLoadTable; } }
 
-        public bool IsLoadLocalizeTable { get { return isLoadLocalizeTable; } }
-        #endregion 
+        //public bool IsLoadLocalizeTable { get { return isLoadLocalizeTable; } }
+        //#endregion 
         void Awake()
         {
-            if(isLoadTable) { TableLoader.Initialize(); }
+            TableLoader.Initialize(); 
             GlobalEventQueue.Initialize();
             JResources.Initialize();
             OnAwake();

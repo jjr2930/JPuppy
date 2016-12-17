@@ -6,9 +6,10 @@ using System.Text;
 using UnityEngine;
 namespace JLib
 {
-    public class JResources : Singletone<JResources>
+    public class JResources : MonoSingle<JResources>
     {
         BaseResourcesLoader resourcesLoader = null;
+
         public static UnityEngine.Object Load(string path)
         {
             if(null == Instance.resourcesLoader)

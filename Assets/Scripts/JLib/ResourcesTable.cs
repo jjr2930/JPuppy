@@ -21,7 +21,7 @@ namespace JLib
         public List<ResourcesData> table = new List<ResourcesData>();
     }
 
-    public class ResourcesTable: Singletone<ResourcesTable>
+    public class ResourcesTable: MonoSingle<ResourcesTable>
     {
         ResourcesDataList table = null;
 

@@ -13,7 +13,12 @@ namespace JLib
         {
             text = transform.GetChild( 0 ).GetComponent<Text>();
             bg = GetComponent<Image>();
+
+            GlobalEventQueue.RegisterListener(DefaultEvent.ShowTooltip, ListenShowTooltip);
+            GlobalEventQueue.RegisterListener(DefaultEvent.HideTooltip, ListenHideTooltip);
+
             gameObject.SetActive(false);
+            
         }
 
         /// <summary>
@@ -50,7 +55,7 @@ namespace JLib
             ShowTooltipUseLocalKey(p.localKey,p.position);
             ParameterPool.ReturnPool(p);
         }
-        public void ListenStopTooltip(object param)
+        public void ListenHideTooltip(object param)
         {
             if(null != param)
             {

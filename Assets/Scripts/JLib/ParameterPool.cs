@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JLib
 {
-    public class ParameterPool : Singletone<ParameterPool>
+    public class ParameterPool : MonoSingle<ParameterPool>
     {
         List<object> sleepObject = new List<object>();
         List<object> awakeObject = new List<object>();

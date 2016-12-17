@@ -6,11 +6,11 @@ using JLib;
 public class DogCreateEventForUGUI : MonoBehaviour
 {
     [SerializeField]
-    UIID id;
+    UIID id = UIID.None;
 
     [SerializeField]
-    EventTriggerType type;
-
+    EventTriggerType type = EventTriggerType.Cancel;
+     
     public void CreateEvent()
     {
         DogUIEventParameter p = ParameterPool.GetParameter<DogUIEventParameter>();
