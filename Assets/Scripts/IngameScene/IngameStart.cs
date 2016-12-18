@@ -10,6 +10,8 @@ public class IngameStart : JMonoBehaviour {
             eventName = DefaultEvent.IngameLoadingComplete,
             value = null
         } );
+
+        UserData.Instance.ActPoint = UserData.Instance.ActPoint;
 	}
 	
 	// Update is called once per frame

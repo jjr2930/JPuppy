@@ -6,14 +6,29 @@ using UnityEngine;
 [Serializable]
 public class DogData
 {
+    public string 이름
+    {
+        get
+        {
+            return PlayerPrefs.GetString( "개이름", "멍멍이" );
+        }
+        set
+        {
+            PlayerPrefs.SetString( "개이름", value );
+            PlayerPrefs.Save();
+            _이름 = value;
+        }
+    }
     public int 배고픔
     {
         get
         {
-            return _배고픔;
+            return PlayerPrefs.GetInt( "개배고픔", 0 );
         }
         set
         {
+            PlayerPrefs.SetInt( "개배고픔", value );
+            PlayerPrefs.Save();
             _배고픔 = value;
         }
     }
@@ -22,10 +37,12 @@ public class DogData
     {
         get
         {
-            return _심심함;
+            return PlayerPrefs.GetInt( "개심심함", 0 );
         }
         set
         {
+            PlayerPrefs.SetInt( "개심심함", value );
+            PlayerPrefs.Save();
             _심심함 = value;
         }
     }
@@ -34,10 +51,12 @@ public class DogData
     {
         get
         {
-            return _더러움;
+            return PlayerPrefs.GetInt( "개더러움",0 );
         }
         set
         {
+            PlayerPrefs.SetInt( "개더러움", value );
+            PlayerPrefs.Save();
             _더러움 = value;
         }
     }
@@ -45,10 +64,12 @@ public class DogData
     {
         get
         {
-            return _졸림;
+            return PlayerPrefs.GetInt( "개졸림", 0);
         }
         set
         {
+            PlayerPrefs.SetInt( "개졸림", value );
+            PlayerPrefs.Save();
             _졸림 = value;
         }
     }
@@ -57,10 +78,12 @@ public class DogData
     {
         get
         {
-            return _똥마려움;
+            return PlayerPrefs.GetInt( "개똥마려움", 0 );
         }
         set
         {
+            PlayerPrefs.SetInt( "개똥마려움", value );
+            PlayerPrefs.Save();
             _똥마려움 = value;
         }
     }
@@ -68,13 +91,18 @@ public class DogData
     {
         get
         {
-            return _멋짐;
+            return PlayerPrefs.GetInt( "개멋짐", 0 );
         }
         set
         {
+            PlayerPrefs.SetInt( "개멋짐", value );
+            PlayerPrefs.Save();
             _멋짐 = value;
         }
     }
+
+    [SerializeField]
+    string _이름;
 
     [SerializeField]
     int _배고픔;

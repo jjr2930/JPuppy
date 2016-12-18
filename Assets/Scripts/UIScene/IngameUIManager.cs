@@ -45,8 +45,8 @@ public class IngameUIManager: MonoBehaviour, JLib.JIUIManager
         int date = usePoint / 24;
         int hour = usePoint % 24;
         string localDate = JLib.LocalizeTable.GetLocalString("일차");
-        string localHour= JLib.LocalizeTable.GetLocalString("시");
-        dateLabel.text = string.Format( "{0:D3}{1} {2:D3}{3]" , date , localDate , hour , localHour );
+        string localHour= JLib.LocalizeTable.GetLocalString("시간");
+        dateLabel.text = string.Format( "{0:D3}{1} {2:D3}{3}" , date , localDate , hour , localHour );
 
         //JLib.ParameterPool.ReturnPool( p );
     }

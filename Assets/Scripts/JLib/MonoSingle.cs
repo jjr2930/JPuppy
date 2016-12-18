@@ -50,7 +50,7 @@ namespace JLib
                     break;
             }
             DontDestroyOnLoad( _instance );
-            Debug.LogErrorFormat( "{0} was set DontDestroyOnLoad object", typeof( T ).ToString() );
+            Debug.LogFormat( "{0} was set DontDestroyOnLoad object", typeof( T ).ToString() );
         }
     }
 }
