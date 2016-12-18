@@ -78,7 +78,7 @@ public class JCommonPopupUIManager : MonoSingle<JCommonPopupUIManager>, JIUIMana
     }
     public void ListenShowCommon(object param)
     {
-        CommonEventParameter p = param as CommonEventParameter;
+        CommonPopupEventParameter p = param as CommonPopupEventParameter;
         if(string.IsNullOrEmpty(p.btn2LabelKey))
         {
             OnShow( p.titleKey,
