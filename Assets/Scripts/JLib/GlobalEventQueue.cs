@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using UnityEngine.Events;
 //using UnityEngine;
 namespace JLib
@@ -22,6 +23,7 @@ namespace JLib
         /// <param name="param">파라미터</param>
         public static void EnQueueEvent( Enum eventName, object param)
         {
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}", eventName, param );
             var p = JLib.ParameterPool.GetParameter<GlobalEventParameter>();
             p.eventName = eventName;
             p.value = param;
@@ -44,6 +46,7 @@ namespace JLib
         /// <param name="listener">이벤트가 발생하면 할 행위가 정의된 리스너</param>
         public static void RegisterListener( object eventName , UnityAction<object> listener )
         {
+            Debug.LogFormat( "GlobalEventQueue.RegisterListener=>name :{0}, listener :{1}", eventName, listener );
             if( Instance.listeners.ContainsKey( eventName ) )
             {
                 Instance.listeners[ eventName ] += listener;
@@ -62,6 +65,7 @@ namespace JLib
         /// <param name="listener">제거할 리스너</param>
         public static void RemoveListener( object eventName , UnityAction<object> listener )
         {
+            Debug.LogFormat( "GlobalEventQueue.RemoveListener=>name :{0}, listener :{1}", eventName, listener );
             UnityAction<object> foundedAction = null;
             if( Instance.listeners.TryGetValue( eventName , out foundedAction ) )
             {
@@ -82,6 +86,10 @@ namespace JLib
                 {
                     founded.Invoke( p.value );
                     ParameterPool.ReturnPool(p);
+                }
+                else
+                {
+                    UnityEngine.Debug.LogFormat( "{0} is not contain at listener",p.eventName );
                 }
             }
         }

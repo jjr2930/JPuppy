@@ -68,10 +68,10 @@ namespace JLib
             GlobalEventQueue.Initialize();
             JResources.Initialize();
             OnAwake();
-            GlobalEventQueue.RegisterListener(DefaultEvent.ChangeScene, ListenSceneChange);
+            GlobalEventQueue.RegisterListener(DefaultEvent.LoadScene, ListenSceneChange);
             GlobalEventQueue.RegisterListener(DefaultEvent.AddScene, ListenAddScene);
             GlobalEventQueue.RegisterListener(DefaultEvent.UnloadScene, ListenUnloadScene);
-
+            SceneManager.sceneLoaded += LoadedCompleteMethod;
             gravity = Physics.gravity;
 
 
@@ -86,7 +86,7 @@ namespace JLib
             string sceneName = param as string;
             if(!string.IsNullOrEmpty(sceneName))
             {
-                SceneManager.LoadScene(sceneName);
+                SceneManager.LoadScene( sceneName );
             }
         }
 
@@ -95,7 +95,7 @@ namespace JLib
             string name = sceneName as string;
             if(!string.IsNullOrEmpty(name))
             {
-                SceneManager.LoadScene(name, LoadSceneMode.Additive);
+                SceneManager.LoadScene( name, LoadSceneMode.Additive );
             }
         }
 
@@ -108,11 +108,16 @@ namespace JLib
             }
         }
 
+        public void LoadedCompleteMethod(Scene scene, LoadSceneMode mode)
+        {
+            GlobalEventQueue.EnQueueEvent( DefaultEvent.CompleteLoadScene, scene.name );
+        }
+
         public virtual void OnAwake() { }
 
         void OnDistroy()
         {
-            GlobalEventQueue.RemoveListener(DefaultEvent.ChangeScene, ListenSceneChange);
+            GlobalEventQueue.RemoveListener(DefaultEvent.LoadScene, ListenSceneChange);
             GlobalEventQueue.RemoveListener(DefaultEvent.AddScene, ListenAddScene);
             GlobalEventQueue.RemoveListener(DefaultEvent.UnloadScene, ListenUnloadScene);
 

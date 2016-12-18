@@ -12,7 +12,7 @@ namespace JLib
         {
             get
             {
-                if(null == _instance)
+                if( null == _instance )
                 {
                     Initialize();
                 }
@@ -24,31 +24,33 @@ namespace JLib
         {
             //find Instance all
             T[] objects = FindObjectsOfType<T>();
-            switch (objects.Length)
+            switch( objects.Length )
             {
                 case 0:
                     //create new gameobject
-                    Debug.LogFormat("{0} was not founded so Instnatiate {0}", typeof(T).ToString()); ;
-                    string[] splits = typeof(T).ToString().Split('.');
-                    string name = splits[splits.Length - 1];
-                    GameObject go = new GameObject(name);
-                    _instance = go.AddComponent<T>();
+                    Debug.LogFormat( "{0} was not founded so Instnatiate {0}", typeof( T ).ToString() ); ;
+                    string[] splits = typeof( T ).ToString().Split( '.' );
+                    string name = splits[ splits.Length - 1 ];
+                    GameObject go = new GameObject( name );
+                    _instance = go.AddComponent<T>();                    
                     break;
 
                 case 1:
-                    _instance = objects[0];
+                    _instance = objects[ 0 ];
                     break;
 
                 default:
-                    Debug.LogWarningFormat("{0} is MonoSingle, so it must be unique, leave only one", typeof(T).ToString());
-                    for (int i = 1; i < objects.Length; i++)
+                    Debug.LogWarningFormat( "{0} is MonoSingle, so it must be unique, leave only one", typeof( T ).ToString() );
+                    for( int i = 1; i < objects.Length; i++ )
                     {
-                        GameObject.Destroy(objects[i]);
+                        GameObject.Destroy( objects[ i ] );
                     }
-                    _instance = objects[0];
+                    _instance = objects[ 0 ];
                     objects = null;
                     break;
             }
+            DontDestroyOnLoad( _instance );
+            Debug.LogErrorFormat( "{0} was set DontDestroyOnLoad object", typeof( T ).ToString() );
         }
     }
 }
