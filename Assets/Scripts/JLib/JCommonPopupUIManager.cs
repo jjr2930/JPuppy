@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using JLib;
-public class CommonPopupUIManager : MonoSingle<CommonPopupUIManager>
+public class JCommonPopupUIManager : MonoSingle<JCommonPopupUIManager>, JIUIManager
 {
     [SerializeField]
     Button okBtn1 = null;
@@ -37,9 +37,14 @@ public class CommonPopupUIManager : MonoSingle<CommonPopupUIManager>
     [SerializeField]
     UnityEvent onHideEvent;
 
-    void Awake()
+    public void SetActive(bool value)
+    {
+        gameObject.SetActive( value );
+    }
+    public void Awake()
     {
         SetDefaultListener();
+        gameObject.SetActive( false );
     }
 
     void SetDefaultListener()
@@ -71,6 +76,32 @@ public class CommonPopupUIManager : MonoSingle<CommonPopupUIManager>
         RemoveAllListener();
         SetDefaultListener();
     }
+    public void ListenShowCommon(object param)
+    {
+        CommonEventParameter p = param as CommonEventParameter;
+        if(string.IsNullOrEmpty(p.btn2LabelKey))
+        {
+            OnShow( p.titleKey,
+                p.descriptKey,
+                p.btn1LabelKey,
+                p.cancelLabelKey,
+                p.btn1Action,
+                p.cancelAction,
+                p.pauseGame );
+        }
+        else
+        {
+            OnShow( p.titleKey,
+                p.descriptKey,
+                p.btn1LabelKey,
+                p.btn2LabelKey,
+                p.cancelLabelKey,
+                p.btn1Action,
+                p.btn2Action,
+                p.cancelAction,
+                p.pauseGame );
+        }
+    }
 
     /// <summary>
     /// 화면에 띄우고 onShowEvent에 등록된 메소드들을 실행한다. 버튼 3개짜리
@@ -85,14 +116,14 @@ public class CommonPopupUIManager : MonoSingle<CommonPopupUIManager>
     /// <param name="cancelAction">취소 버튼을 누르면 실행할 함수</param>
     /// <param name="pauseGame">게임을 일시정지 시킬것인가</param>
     public void OnShow(
-        string titleKey ,
-        string descriptKey ,
-        string btn1LabelKey ,
-        string btn2LabelKey ,
-        string cancelLabelKey ,
-        UnityAction btn1Action ,
-        UnityAction btn2Action ,
-        UnityAction cancelAction ,
+        string titleKey,
+        string descriptKey,
+        string btn1LabelKey,
+        string btn2LabelKey,
+        string cancelLabelKey,
+        UnityAction btn1Action,
+        UnityAction btn2Action,
+        UnityAction cancelAction,
         bool pauseGame
         )
     {
@@ -119,12 +150,12 @@ public class CommonPopupUIManager : MonoSingle<CommonPopupUIManager>
     /// <param name="cancelAction">취소 버튼을 누르면 실행할 함수</param>
     /// <param name="pauseGame">게임을 일시정지 시킬것인가</param>
     public void OnShow(
-        string titleKey ,
-        string descriptKey ,
-        string btn1LabelKey ,
-        string cancelLabelKey ,
-        UnityAction btn1Action ,
-        UnityAction cancelAction ,
+        string titleKey,
+        string descriptKey,
+        string btn1LabelKey,
+        string cancelLabelKey,
+        UnityAction btn1Action,
+        UnityAction cancelAction,
         bool pauseGame
         )
     {

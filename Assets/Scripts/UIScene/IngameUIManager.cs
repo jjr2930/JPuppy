@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IngameUIListener : MonoBehaviour
+public class IngameUIManager: MonoBehaviour, JLib.JIUIManager
 {
     [SerializeField]
     Slider actPoint = null;
@@ -12,12 +12,29 @@ public class IngameUIListener : MonoBehaviour
     [SerializeField]
     Text dateLabel = null;
 
-    private void Start()
+    public void SetActive(bool value)
     {
-        JLib.GlobalEventQueue.RegisterListener( UserDataChange.ActPoint , ListenUseActPoint );
-
+        gameObject.SetActive( value );
     }
 
+    public void Awake()
+    {
+        JLib.GlobalEventQueue.RegisterListener( UserDataChange.ActPoint , ListenUseActPoint );
+        JLib.GlobalEventQueue.RegisterListener( JLib.DefaultEvent.CompleteLoadScene, ListenIngameSceneLoadComplete );
+    }
+    public void ListenIngameSceneLoadComplete( object param )
+    {
+        string sceneName = param as string;
+        if( sceneName == "IngameScene" )
+        {
+            gameObject.SetActive( true );
+        }
+        else
+        {
+            gameObject.SetActive( false );
+        }
+        
+    }
     public void ListenUseActPoint( object param )
     {
         UserDataChangeParameter p = param as UserDataChangeParameter;
@@ -31,6 +48,6 @@ public class IngameUIListener : MonoBehaviour
         string localHour= JLib.LocalizeTable.GetLocalString("시");
         dateLabel.text = string.Format( "{0:D3}{1} {2:D3}{3]" , date , localDate , hour , localHour );
 
-        JLib.ParameterPool.ReturnPool( p );
+        //JLib.ParameterPool.ReturnPool( p );
     }
 }
