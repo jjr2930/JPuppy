@@ -11,7 +11,7 @@ namespace JLib
         {
             get
             {
-                if(null == _transform )
+                if (null == _transform)
                 {
                     _transform = base.transform;
                 }
@@ -23,7 +23,7 @@ namespace JLib
         {
             get
             {
-                if(null == _gameOjbect)
+                if (null == _gameOjbect)
                 {
                     _gameOjbect = base.gameObject;
                 }
@@ -31,7 +31,20 @@ namespace JLib
             }
         }
 
+        public RectTransform rectTransform
+        {
+            get
+            {
+                if (null == _rectTransform)
+                {
+                    _rectTransform = transform as RectTransform;
+                }
+                return _rectTransform;
+            }
+        }
+
         private GameObject _gameOjbect = null;
         private Transform _transform = null;
+        private RectTransform _rectTransform = null;
     }
 }

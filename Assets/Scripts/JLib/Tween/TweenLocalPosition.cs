@@ -21,7 +21,6 @@ namespace JLib
         protected override void OnTweenUpdate()
         {
             Vector3 targetPosition = Vector3.Lerp(from, to, normalTime * curveValue);
-            //Debug.Log(normalTime * curveValue);
             transform.localPosition = targetPosition;
         }
 

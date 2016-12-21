@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using JLib;
-public class MenuUIManager : JMonoBehaviour {
+public class MenuUIManager : JMonoBehaviour, JIUIManager
+{
     //[SerializeField]
     //Button startButton = null;
 
@@ -12,21 +13,26 @@ public class MenuUIManager : JMonoBehaviour {
     //[SerializeField]
     //Button exitIntro = null;
 
-    void Awake()
+    public void SetActive(bool value)
     {
-        GlobalEventQueue.RegisterListener(DefaultEvent.ChangeScene, ListenSceneChange);
+        gameObject.SetActive( value );
     }
 
-    void ListenSceneChange(object name)
+    public void Awake()
     {
-        string sceneName= name as string;
-        if("MenuScene" == sceneName)
+        GlobalEventQueue.RegisterListener( DefaultEvent.CompleteLoadScene, ListenSceneChange );
+    }
+
+    void ListenSceneChange( object name )
+    {
+        string sceneName = name as string;
+        if( "MenuScene" == sceneName )
         {
-            gameObject.SetActive(true);
+            gameObject.SetActive( true );
         }
         else
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive( false );
         }
     }
     public void OnClickExit()
@@ -36,18 +42,18 @@ public class MenuUIManager : JMonoBehaviour {
 
     public void OnClickStart()
     {
-        GlobalEventQueue.EnQueueEvent(new GlobalEventParameter
+        GlobalEventQueue.EnQueueEvent( new GlobalEventParameter
         {
-            eventName = DefaultEvent.ChangeScene,
-            value = "Ingame"
+            eventName = DefaultEvent.LoadScene,
+            value = "IngameScene"
         } );
     }
 
     public void OnClickDeveloper()
     {
-        GlobalEventQueue.EnQueueEvent(new GlobalEventParameter
+        GlobalEventQueue.EnQueueEvent( new GlobalEventParameter
         {
-            eventName = DefaultEvent.ChangeScene,
+            eventName = DefaultEvent.LoadScene,
             value = "Developer"
         } );
     }

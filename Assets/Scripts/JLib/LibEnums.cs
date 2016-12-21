@@ -45,8 +45,9 @@ namespace JLib
     public enum DefaultEvent
     {
         None = 0,
-        ChangeScene = 1,
+        LoadScene = 1,
         IngameLoadingComplete,
+        CompleteLoadScene,
         AddScene,
         UnloadScene,
         DoTween,

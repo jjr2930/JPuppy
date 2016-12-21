@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
+using System.Collections;
 
 public enum UserDataChange
 {
@@ -20,18 +18,34 @@ public enum DoAction
     배변치우기
 }
 
+public enum DogDesire
+{
+    배고픔,
+    심심함,
+    더러움,
+    졸림,
+    똥마려움,
+}
 public enum UIID
 {
     None,
+    //Menu
+    시작,
+    개발자,
+    종료,
+
+    //Ingame
     밥먹이기버튼,
     재우기버튼,
     씻기기버튼,
     놀아주기버튼,
     배변치우기버튼,
     옷입히기버튼
-}
 
     
+}
+
+
 
 public enum SmartObjectType
 {

@@ -4,21 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace JLib
 {
-    public class Tooltip : MonoSingle<Tooltip>
+    public class Tooltip : MonoSingle<Tooltip>, JIUIManager
     {
         Image bg = null;
         Text text = null;
         // Use this for initialization
-        void Awake()
+        public void Awake()
         {
             text = transform.GetChild( 0 ).GetComponent<Text>();
             bg = GetComponent<Image>();
 
             GlobalEventQueue.RegisterListener(DefaultEvent.ShowTooltip, ListenShowTooltip);
             GlobalEventQueue.RegisterListener(DefaultEvent.HideTooltip, ListenHideTooltip);
-
-            gameObject.SetActive(false);
             
+        }
+
+        public void SetActive(bool value)
+        {
+            gameObject.SetActive( value );
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace JLib
         {
             TooltipParameter p = param as TooltipParameter;
             ShowTooltipUseLocalKey(p.localKey,p.position);
-            ParameterPool.ReturnPool(p);
+            //ParameterPool.ReturnPool(p);
         }
         public void ListenHideTooltip(object param)
         {

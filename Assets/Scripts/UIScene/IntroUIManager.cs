@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using JLib;
-public class IntroUIManager : JMonoBehaviour
+public class IntroUIManager : JMonoBehaviour, JIUIManager
 {
     [SerializeField]
     TweenFontColor myName = null;
@@ -10,14 +10,18 @@ public class IntroUIManager : JMonoBehaviour
     [SerializeField]
     TweenFontColor gameName = null;
 
-    void Awake()
+    public void SetActive( bool value )
     {
-        GlobalEventQueue.RegisterListener( DefaultEvent.ChangeScene , ListenChangeScene );
-        gameObject.SetActive( true );
+        gameObject.SetActive( value );
+    }
+
+    public void Awake()
+    {
+        GlobalEventQueue.RegisterListener( DefaultEvent.CompleteLoadScene, ListenSceneLoadComplete );
         myName.enabled = true;
     }
 
-    public void ListenChangeScene( object obj )
+    public void ListenSceneLoadComplete( object obj )
     {
         string name = obj as string;
         if( "IntroScene" == name )
@@ -29,27 +33,27 @@ public class IntroUIManager : JMonoBehaviour
             gameObject.SetActive( false );
         }
     }
-    public void UnloadScene(string sceneName)
+    public void UnloadScene( string sceneName )
     {
-        GlobalEventQueue.EnQueueEvent(new GlobalEventParameter()
+        GlobalEventQueue.EnQueueEvent( new GlobalEventParameter()
         {
             eventName = DefaultEvent.UnloadScene,
             value = sceneName
         } );
     }
-    public void ChangeScene( string sceneName )
+    public void AddScene( string sceneName )
     {
         if( !string.IsNullOrEmpty( sceneName ) )
         {
             GlobalEventQueue.EnQueueEvent( new GlobalEventParameter()
             {
-                eventName = DefaultEvent.ChangeScene ,
+                eventName = DefaultEvent.AddScene,
                 value = sceneName
             } );
         }
         else
         {
-            Debug.LogErrorFormat( "IntroUIManager.ChangeScen => {0} is not string" , sceneName );
+            Debug.LogErrorFormat( "IntroUIManager.ChangeScen => {0} is not string", sceneName );
         }
     }
 
@@ -62,6 +66,6 @@ public class IntroUIManager : JMonoBehaviour
 
     void OnDistroy()
     {
-        GlobalEventQueue.RemoveListener(DefaultEvent.ChangeScene, ListenChangeScene);
+        GlobalEventQueue.RemoveListener( DefaultEvent.CompleteLoadScene, ListenSceneLoadComplete );
     }
 }
