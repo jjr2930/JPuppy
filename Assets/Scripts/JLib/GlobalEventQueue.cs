@@ -15,19 +15,19 @@ namespace JLib
         Queue<GlobalEventParameter> eventQueue = new Queue<GlobalEventParameter>();
         Dictionary<object, UnityAction<object>> listeners = new Dictionary<object, UnityAction<object>>();
 
-        
+
         /// <summary>
         /// 이벤트 넣기
         /// </summary>
         /// <param name="eventName">이벤트 Enum</param>
         /// <param name="param">파라미터</param>
-        public static void EnQueueEvent( Enum eventName, object param)
+        public static void EnQueueEvent( Enum eventName , object param )
         {
-            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}", eventName, param );
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}" , eventName , param );
             var p = JLib.ParameterPool.GetParameter<GlobalEventParameter>();
             p.eventName = eventName;
             p.value = param;
-            Instance.eventQueue.Enqueue(p);
+            Instance.eventQueue.Enqueue( p );
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace JLib
         /// <param name="listener">이벤트가 발생하면 할 행위가 정의된 리스너</param>
         public static void RegisterListener( object eventName , UnityAction<object> listener )
         {
-            Debug.LogFormat( "GlobalEventQueue.RegisterListener=>name :{0}, listener :{1}", eventName, listener );
+            Debug.LogFormat( "GlobalEventQueue.RegisterListener=>name :{0}, listener :{1}" , eventName , listener );
             if( Instance.listeners.ContainsKey( eventName ) )
             {
                 Instance.listeners[ eventName ] += listener;
@@ -65,7 +65,7 @@ namespace JLib
         /// <param name="listener">제거할 리스너</param>
         public static void RemoveListener( object eventName , UnityAction<object> listener )
         {
-            Debug.LogFormat( "GlobalEventQueue.RemoveListener=>name :{0}, listener :{1}", eventName, listener );
+            Debug.LogFormat( "GlobalEventQueue.RemoveListener=>name :{0}, listener :{1}" , eventName , listener );
             UnityAction<object> foundedAction = null;
             if( Instance.listeners.TryGetValue( eventName , out foundedAction ) )
             {
@@ -85,11 +85,11 @@ namespace JLib
                 if( listeners.TryGetValue( p.eventName , out founded ) )
                 {
                     founded.Invoke( p.value );
-                    ParameterPool.ReturnPool(p);
+                    ParameterPool.ReturnPool( p );
                 }
                 else
                 {
-                    UnityEngine.Debug.LogFormat( "{0} is not contain at listener",p.eventName );
+                    UnityEngine.Debug.LogFormat( "{0}, {1} is not contain at listener" , p.eventName , p.value );
                 }
             }
         }

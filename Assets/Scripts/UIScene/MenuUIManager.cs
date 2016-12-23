@@ -21,6 +21,11 @@ public class MenuUIManager : JMonoBehaviour, JIUIManager
     public void Awake()
     {
         GlobalEventQueue.RegisterListener( DefaultEvent.CompleteLoadScene, ListenSceneChange );
+
+        
+        GlobalEventQueue.RegisterListener( UIID.개발자, ListenDeveloperButton );
+        GlobalEventQueue.RegisterListener( UIID.시작, ListenIngamebutton );
+        GlobalEventQueue.RegisterListener( UIID.종료, ListenExitButton );
     }
 
     void ListenSceneChange( object name )
@@ -49,6 +54,23 @@ public class MenuUIManager : JMonoBehaviour, JIUIManager
         } );
     }
 
+    
+    public void ListenDeveloperButton( object param )
+    {
+        GlobalEventQueue.EnQueueEvent( DefaultEvent.LoadScene, "DeveloperScene" );
+    }
+
+    public void ListenExitButton( object param )
+    {
+        GlobalEventQueue.EnQueueEvent( DefaultEvent.LoadScene, "ExitScene" );
+    }
+
+    public void ListenIngamebutton( object param )
+    {
+        GlobalEventQueue.EnQueueEvent( DefaultEvent.LoadScene, "IngameScene" );
+    }
+
+
     public void OnClickDeveloper()
     {
         GlobalEventQueue.EnQueueEvent( new GlobalEventParameter
@@ -56,5 +78,14 @@ public class MenuUIManager : JMonoBehaviour, JIUIManager
             eventName = DefaultEvent.LoadScene,
             value = "Developer"
         } );
+    }
+
+    void OnDistroy()
+    {
+        GlobalEventQueue.RemoveListener( DefaultEvent.CompleteLoadScene, ListenSceneChange );
+        
+        GlobalEventQueue.RemoveListener( UIID.개발자, ListenDeveloperButton );
+        GlobalEventQueue.RemoveListener( UIID.시작, ListenIngamebutton );
+        GlobalEventQueue.RemoveListener( UIID.종료, ListenExitButton );
     }
 }

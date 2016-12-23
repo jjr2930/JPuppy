@@ -7,6 +7,15 @@ public enum UserDataChange
     ActPoint,
     MaxActPoint,    
 }
+public enum DogDataChange
+{
+    None = 0,
+    똥마려움,
+    졸림,
+    배고픔,
+    심심함,
+    더러움,
+}
 
 public enum DoAction
 {
@@ -20,11 +29,13 @@ public enum DoAction
 
 public enum DogDesire
 {
+    None = 0,
+    똥마려움,
+    졸림,
     배고픔,
     심심함,
     더러움,
-    졸림,
-    똥마려움,
+    Max
 }
 public enum UIID
 {

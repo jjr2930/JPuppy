@@ -1,47 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 namespace JLib
-{ 
+{
     public class App : MonoSingle<App>
     {
-        public static Vector3 Gravity
-        {
-            get
-            {
-                return Instance.gravity;
-            }
-            set
-            {
-                Instance.gravity = value;
-                Physics.gravity = value;
-            }
-        }
-        
-  
-
-        public static JPlatformType Platform
-        {
-            get
-            {
-                if(JPlatformType.None == Instance._runtimePlatfom)
-                {
-                    int enumNumber = (int)Application.platform;
-                    Instance._runtimePlatfom = (JPlatformType)enumNumber;
-                }
-
-                return Instance._runtimePlatfom;
-            }
-        }
-
         public static bool IsUseAssetBundle()
         {
-            if(Instance._runtimePlatfom == JPlatformType.Android
-                || Instance._runtimePlatfom == JPlatformType.IPhonePlayer)
+            if( Application.platform == RuntimePlatform.Android
+                || Application.platform == RuntimePlatform.IPhonePlayer )
             {
                 return true;
             }
@@ -49,30 +17,36 @@ namespace JLib
             return false;
         }
 
-
-        JPlatformType _runtimePlatfom = JPlatformType.None;
-        Vector3 gravity = Vector3.zero;
-
-
         [SerializeField]
         UnityEvent appStartMethod = null;
 
-        //#region property
-        //public bool IsLoadTable { get { return isLoadTable; } }
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod]
+        static void LoadInScene()
+        {
+            var app = GameObject.FindObjectOfType<App>();
+            if( null == app )
+            {
+                App.Initialize();
+            }
+        }
 
-        //public bool IsLoadLocalizeTable { get { return isLoadLocalizeTable; } }
+
+        static bool IsLoadedUI = false;
+#endif
+
         //#endregion 
         void Awake()
         {
-            TableLoader.Initialize(); 
+            TableLoader.Initialize();
             GlobalEventQueue.Initialize();
             JResources.Initialize();
             OnAwake();
-            GlobalEventQueue.RegisterListener(DefaultEvent.LoadScene, ListenSceneChange);
-            GlobalEventQueue.RegisterListener(DefaultEvent.AddScene, ListenAddScene);
-            GlobalEventQueue.RegisterListener(DefaultEvent.UnloadScene, ListenUnloadScene);
+            GlobalEventQueue.RegisterListener( DefaultEvent.LoadScene , ListenSceneChange );
+            GlobalEventQueue.RegisterListener( DefaultEvent.AddScene , ListenAddScene );
+            GlobalEventQueue.RegisterListener( DefaultEvent.UnloadScene , ListenUnloadScene );
             SceneManager.sceneLoaded += LoadedCompleteMethod;
-            gravity = Physics.gravity;
+            //gravity = Physics.gravity;
 
 
             if( null != appStartMethod )
@@ -81,10 +55,10 @@ namespace JLib
             }
         }
 
-        public void ListenSceneChange(object param )
+        public void ListenSceneChange( object param )
         {
             string sceneName = param as string;
-            if(!string.IsNullOrEmpty(sceneName))
+            if( !string.IsNullOrEmpty( sceneName ) )
             {
                 SceneManager.LoadScene( sceneName );
             }
@@ -93,34 +67,68 @@ namespace JLib
         public void ListenAddScene( object sceneName )
         {
             string name = sceneName as string;
-            if(!string.IsNullOrEmpty(name))
+            if( !string.IsNullOrEmpty( name ) )
             {
-                SceneManager.LoadScene( name, LoadSceneMode.Additive );
+                SceneManager.LoadScene( name , LoadSceneMode.Additive );
             }
         }
 
         public void ListenUnloadScene( object param )
         {
             string sceneName = param as string;
-            if(!string.IsNullOrEmpty(sceneName))
+            if( !string.IsNullOrEmpty( sceneName ) )
             {
-                SceneManager.UnloadSceneAsync(sceneName);
+                SceneManager.UnloadSceneAsync( sceneName );
             }
         }
 
-        public void LoadedCompleteMethod(Scene scene, LoadSceneMode mode)
+        public void LoadedCompleteMethod( Scene scene , LoadSceneMode mode )
         {
-            GlobalEventQueue.EnQueueEvent( DefaultEvent.CompleteLoadScene, scene.name );
+            GlobalEventQueue.EnQueueEvent( DefaultEvent.CompleteLoadScene , scene.name );
         }
 
         public virtual void OnAwake() { }
 
         void OnDistroy()
         {
-            GlobalEventQueue.RemoveListener(DefaultEvent.LoadScene, ListenSceneChange);
-            GlobalEventQueue.RemoveListener(DefaultEvent.AddScene, ListenAddScene);
-            GlobalEventQueue.RemoveListener(DefaultEvent.UnloadScene, ListenUnloadScene);
+            GlobalEventQueue.RemoveListener( DefaultEvent.LoadScene , ListenSceneChange );
+            GlobalEventQueue.RemoveListener( DefaultEvent.AddScene , ListenAddScene );
+            GlobalEventQueue.RemoveListener( DefaultEvent.UnloadScene , ListenUnloadScene );
 
         }
+
+#if UNITY_EDITOR
+        void OnGUI()
+        {
+            if( null == GameObject.FindObjectOfType<JUIManagerInitializer>()
+                && !IsLoadedUI )
+            {
+                string curSceneName = "";
+                for( int i = 0 ; i < SceneManager.sceneCount ; i++ )
+                {
+                    if( SceneManager.GetSceneAt( i ).isLoaded )
+                    {
+                        curSceneName = SceneManager.GetSceneAt( i ).name;
+                    }
+                }
+                GlobalEventQueue.EnQueueEvent( DefaultEvent.AddScene , "UIScene" );
+                IsLoadedUI = true;
+                StartCoroutine( LoadIngameScene() );
+            }
+        }
+
+        IEnumerator LoadIngameScene()
+        {
+            yield return new WaitForSeconds( 0.5f );
+            for(int i =0; i<SceneManager.sceneCount; i++)
+            {
+                if("UIScene" != SceneManager.GetSceneAt(i).name)
+                {
+                    GlobalEventQueue.EnQueueEvent( DefaultEvent.LoadScene , SceneManager.GetSceneAt(i).name );
+                    yield break;
+                }
+            }
+        }
+#endif
     }
 }

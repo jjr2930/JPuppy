@@ -55,6 +55,7 @@ namespace JLib
         HideTooltip,
         ShowEffect,
         AsycResourceLoad,
+        EnterSmartObject
     }
 
     public enum VK_Enum

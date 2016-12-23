@@ -8,7 +8,7 @@ public class DesireData
     public DogDesire desire;
     public AnimationCurve curve;
 }
-public class DogDesireController : MonoBehaviour
+public class DogDesireScheduler : MonoBehaviour
 {
     [SerializeField]
     List<DesireData> desireCurve = new List<DesireData>();

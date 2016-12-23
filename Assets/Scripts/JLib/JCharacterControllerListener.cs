@@ -61,7 +61,7 @@ namespace JLib
         {
             if( !cc.isGrounded )
             {
-                jumpAccel += App.Gravity * JTime.DeltaTime;
+                jumpAccel += Physics.gravity * JTime.DeltaTime;
             }
 
             moveAccel *= moveSpeed * JTime.DeltaTime;
@@ -203,7 +203,7 @@ namespace JLib
 
         void Jump()
         {
-            jumpAccel = -App.Gravity.normalized * jumpForce;
+            jumpAccel = - Physics.gravity.normalized * jumpForce;
         }
     }
 

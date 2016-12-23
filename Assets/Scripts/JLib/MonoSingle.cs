@@ -27,12 +27,25 @@ namespace JLib
             switch( objects.Length )
             {
                 case 0:
-                    //create new gameobject
-                    Debug.LogFormat( "{0} was not founded so Instnatiate {0}", typeof( T ).ToString() ); ;
-                    string[] splits = typeof( T ).ToString().Split( '.' );
-                    string name = splits[ splits.Length - 1 ];
-                    GameObject go = new GameObject( name );
-                    _instance = go.AddComponent<T>();                    
+                    //it is in the resources folder?
+                    string[] typeNameSplits = typeof(T).ToString().Split('.');
+                    string typeName = typeNameSplits[typeNameSplits.Length -1];
+                    UnityEngine.Object loadObj = JResources.Load( "Prefabs/Singletone/" + typeName);
+                    if( null != loadObj )
+                    {
+                        GameObject go = Instantiate(loadObj) as GameObject;
+                        T obj = go.GetComponent<T>();
+                        _instance = obj;
+                    }
+                    else
+                    {
+                        //create new gameobject
+                        Debug.LogFormat( "{0} was not founded so Instnatiate {0}" , typeof( T ).ToString() ); ;
+                        string[] splits = typeof( T ).ToString().Split( '.' );
+                        string name = splits[ splits.Length - 1 ];
+                        GameObject go = new GameObject( name );
+                        _instance = go.AddComponent<T>();
+                    }
                     break;
 
                 case 1:
@@ -40,8 +53,8 @@ namespace JLib
                     break;
 
                 default:
-                    Debug.LogWarningFormat( "{0} is MonoSingle, so it must be unique, leave only one", typeof( T ).ToString() );
-                    for( int i = 1; i < objects.Length; i++ )
+                    Debug.LogWarningFormat( "{0} is MonoSingle, so it must be unique, leave only one" , typeof( T ).ToString() );
+                    for( int i = 1 ; i < objects.Length ; i++ )
                     {
                         GameObject.Destroy( objects[ i ] );
                     }
@@ -50,7 +63,7 @@ namespace JLib
                     break;
             }
             DontDestroyOnLoad( _instance );
-            Debug.LogFormat( "{0} was set DontDestroyOnLoad object", typeof( T ).ToString() );
+            Debug.LogFormat( "{0} was set DontDestroyOnLoad object" , typeof( T ).ToString() );
         }
     }
 }

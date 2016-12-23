@@ -49,7 +49,7 @@ public class FurShaderScript : JMonoBehaviour
         beforePosition.y = transform.position.y;
         beforePosition.z = transform.position.z;
 
-        gravity = App.Gravity;
+        gravity = Physics.gravity ;
 
         //material.SetVector( "_Gravity" , gravity * JTime.DeltaTime * gravityFactor );
         //material.SetVector( "_LocalVelocity" , localVelocity * JTime.DeltaTime * localVelocityFactor );

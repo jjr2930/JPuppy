@@ -6,18 +6,26 @@ using System.Text;
 using UnityEngine;
 namespace JLib
 {
-    public class JResources : MonoSingle<JResources>
+    /// <summary> 
+    /// 싱글톤으로 구현할 경우 자기 재귀호출이 됨 왜냐면 Instance 함수에서 JResources.Load를 호출하는데, 이 때 JResources가 없다면 다시 JResource.LOad를 호출하여
+    /// 무한루프에 빠짐
+    /// </summary>
+    public static class JResources 
     {
-        BaseResourcesLoader resourcesLoader = null;
+        static BaseResourcesLoader resourcesLoader = null;
+        public static void Initialize()
+        {
+            LoadLoader();
+        }
 
         public static UnityEngine.Object Load(string path)
         {
-            if(null == Instance.resourcesLoader)
+            if(null == resourcesLoader)
             {
-                Instance.LoadLoader();
+                LoadLoader();
             }
 
-            return Instance.resourcesLoader.Load(path);
+            return resourcesLoader.Load(path);
         }
 
         public static T Load<T>(string path) where T : UnityEngine.Object
@@ -26,24 +34,24 @@ namespace JLib
 
         }
 
-        void LoadLoader()
+        static void LoadLoader()
         {
-            switch(App.Platform)
+            switch(Application.platform)
             {
-                case JPlatformType.WindowsEditor:
-                case JPlatformType.WindowsWebPlayer:
-                case JPlatformType.OSXEditor:
-                case JPlatformType.OSXPlayer:
+                case RuntimePlatform.WindowsEditor:
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.OSXEditor:
+                case RuntimePlatform.OSXPlayer:
                     resourcesLoader = EditorResourcesLoader.Instance;
                     break;
 
-                case JPlatformType.Android:
-                case JPlatformType.IPhonePlayer:
+                case RuntimePlatform.Android:
+                case RuntimePlatform.IPhonePlayer:
                     resourcesLoader = BundleResourcesLoader.Instance;
                     break;
 
                 default:
-                    Debug.LogErrorFormat("JResources.LoadLoader=> {0} is not supported", App.Platform);
+                    Debug.LogErrorFormat("JResources.LoadLoader=> {0} is not supported", Application.platform);
                     break;
             }
         }
