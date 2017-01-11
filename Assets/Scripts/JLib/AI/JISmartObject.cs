@@ -21,6 +21,8 @@ namespace JLib
 
         Transform[] ActionPositions { get; }
 
+        Vector3 RandomActionPosition { get;}
+
         void OnCollisionEnter( Collision other );
     }
 }

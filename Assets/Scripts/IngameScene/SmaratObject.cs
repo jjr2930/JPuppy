@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using JLib;
 
-public class SmaratObject : JMonoBehaviour, JISmartObject
+public class SmaratObject : MonoBehaviour, JISmartObject
 {
     [SerializeField]
     Transform[] actionPoints = null;
@@ -27,6 +27,18 @@ public class SmaratObject : JMonoBehaviour, JISmartObject
         get { return actionPoints; }
 
     }
+
+    public Vector3 RandomActionPosition
+    {
+        get
+        {
+            int random = UnityEngine.Random.Range(0,actionPoints.Length);
+            return actionPoints[random].position;
+        }
+    }
+
+
+
 
     public void OnCollisionEnter( Collision other )
     {
