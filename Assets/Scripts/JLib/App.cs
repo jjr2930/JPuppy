@@ -96,39 +96,6 @@ namespace JLib
             GlobalEventQueue.RemoveListener( DefaultEvent.UnloadScene , ListenUnloadScene );
 
         }
-
-#if UNITY_EDITOR
-        void OnGUI()
-        {
-            if( null == GameObject.FindObjectOfType<JUIManagerInitializer>()
-                && !IsLoadedUI )
-            {
-                string curSceneName = "";
-                for( int i = 0 ; i < SceneManager.sceneCount ; i++ )
-                {
-                    if( SceneManager.GetSceneAt( i ).isLoaded )
-                    {
-                        curSceneName = SceneManager.GetSceneAt( i ).name;
-                    }
-                }
-                GlobalEventQueue.EnQueueEvent( DefaultEvent.AddScene , "UIScene" );
-                IsLoadedUI = true;
-                StartCoroutine( LoadIngameScene() );
-            }
-        }
-
-        IEnumerator LoadIngameScene()
-        {
-            yield return new WaitForSeconds( 0.5f );
-            for(int i =0; i<SceneManager.sceneCount; i++)
-            {
-                if("UIScene" != SceneManager.GetSceneAt(i).name)
-                {
-                    GlobalEventQueue.EnQueueEvent( DefaultEvent.LoadScene , SceneManager.GetSceneAt(i).name );
-                    yield break;
-                }
-            }
-        }
-#endif
     }
+
 }

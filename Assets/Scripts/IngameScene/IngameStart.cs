@@ -12,10 +12,21 @@ public class IngameStart : JMonoBehaviour {
         } );
 
         UserData.Instance.ActPoint = UserData.Instance.ActPoint;
+        StartCoroutine(IfLoadUI());
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    public IEnumerator IfLoadUI()
+    {
+        var checker = GameObject.FindObjectOfType<JUIManagerInitializer>();
+        if(checker == null)
+        {
+            GlobalEventQueue.EnQueueEvent( DefaultEvent.AddScene, "UIScene");
+            yield return null;
+            GlobalEventQueue.EnQueueEvent( DefaultEvent.CompleteLoadScene, "IngameScene");
+        }
+
+
+    }
+	// Update is called
+
 }
