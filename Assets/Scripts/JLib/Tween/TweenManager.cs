@@ -6,11 +6,11 @@ namespace JLib
 {
     public class TweenManager : MonoSingle<TweenManager>
     {
-        Dictionary<int,Tween> tweens = new Dictionary<int, Tween>();
+        Dictionary<string,ITween> tweens = new Dictionary<string, ITween>();
 
-        public static void AddTween( Tween tween )
+        public static void AddTween<T>( Tween<T> tween )
         {
-            Instance.tweens.Add( tween.GetInstanceID() , tween );
+            Instance.tweens.Add( tween.GetTweenID() , tween );
         }
 
         void Awake()
@@ -31,7 +31,7 @@ namespace JLib
         {
             foreach( var item in tweens )
             {
-                if( item.Value.enabled )
+                if( item.Value.Enabled)
                 {
                     item.Value.UpdateTween();
                 }
@@ -43,7 +43,7 @@ namespace JLib
             for( int i = 0 ; i < tweens.Count ; i++ )
             {
                 var tween = tweens.ElementAt(i);
-                if( tween.Value.enabled )
+                if( tween.Value.Enabled )
                 {
                     tween.Value.UpdateTween();
                 }
@@ -57,7 +57,7 @@ namespace JLib
             while( enumerator.MoveNext() )
             {
                 var tween = enumerator.Current;
-                if( tween.Value.enabled )
+                if( tween.Value.Enabled)
                 {
                     tween.Value.UpdateTween();
                 }
@@ -74,15 +74,15 @@ namespace JLib
                 return;
             }
 
-            Tween foundedTween = null;
-            if( !tweens.TryGetValue( param.instnaceID , out foundedTween ) )
+            ITween foundedTween = null;
+            if( !tweens.TryGetValue( param.tweenID, out foundedTween ) )
             {
                 Debug.LogErrorFormat( "TweenManger.ListenDoTween=> id: {0} is not founded" ,
-                    param.instnaceID );
+                    param.tweenID);
                 return;
             }
 
-            foundedTween.enabled = true;
+            foundedTween.Enabled = true;
         }
     }
 }

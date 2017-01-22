@@ -7,6 +7,6 @@ namespace JLib
 {
     public class ListenDoTweenParameter
     {
-        public int instnaceID;
+        public string tweenID;
     }
 }

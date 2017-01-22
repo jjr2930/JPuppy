@@ -7,37 +7,23 @@ using UnityEngine;
 namespace JLib
 {
     [AddComponentMenu("JTween/TweenLocalRotation")]
-    public class TweenLocalRotation : Tween
+    public class TweenLocalRotation : Tween<Vector3>
     {
-        [SerializeField]
-        Vector3 from = Vector3.zero;
-        
-        [SerializeField]
-        Vector3 to = Vector3.zero;
-
-
         protected override void OnOnEnable()
         {
-            transform.localRotation = Quaternion.Euler(from);
+            transform.localRotation = Quaternion.Euler( realFrom );
         }
 
         protected override void OnTweenUpdate()
         {
-            Vector3 targetRotation = Vector3.Lerp(from, to, normalTime * curveValue);
-            transform.localRotation = Quaternion.Euler( targetRotation );
+
+            transform.rotation = Quaternion.Euler( Lerp() );
         }
 
-        public override void LoopMethod()
+        public override Vector3 Lerp()
         {
-            startTime = JTime.Time;
-            duringTime = 0f;
+            return Vector3.Lerp(realFrom,realTo,curveValue);
         }
 
-        public override void PingpongMethod()
-        {
-            var temp = from;
-            from = to;
-            to = temp;
-        }
     }
 }

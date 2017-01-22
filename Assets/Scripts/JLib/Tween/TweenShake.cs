@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using JLib;
 
-public class TweenShake : Tween
+
+public class TweenShake : Tween<Vector3>
 {
     [SerializeField]
     Vector3 deltaLimit = Vector3.zero;
@@ -30,26 +31,7 @@ public class TweenShake : Tween
     {
         updateDelegate();
     }
-
-    public override void LoopMethod()
-    {
-        startTime = JTime.Time;
-        duringTime = 0f;
-    }
-
-    public override void PingpongMethod()
-    {
-        isIncrease = !isIncrease;
-        if(isIncrease)
-        {
-            updateDelegate = IncreaseShake;
-        }
-        else
-        {
-            updateDelegate = DecreaseShake;
-        }
-    }
-
+    
     void IncreaseShake()
     {
         Vector3 delta;
@@ -72,6 +54,11 @@ public class TweenShake : Tween
         this.transform.localPosition = originLocalPosition + delta;
 
         Debug.Log(curveValue);
+    }
+
+    public override Vector3 Lerp()
+    {
+        return Vector3.zero;
     }
 
     protected override void OnOnDisable()

@@ -4,42 +4,33 @@ using System.Collections;
 using JLib;
 using System;
 
-public class TweenFontColor : Tween
+namespace JLib
 {
-    [SerializeField]
-    Color from = Color.white;
-    [SerializeField]
-    Color to = Color.white;
-
-
-    Text txt = null;
-
-    // Use this for initialization
-    protected override void OnAwake()
+    [AddComponentMenu("JTween/TweenFontColor")]
+    public class TweenFontColor : Tween<Color>
     {
-        txt = GetComponent<Text>();
-    }
+        Text txt = null;
 
-    protected override void OnOnEnable()
-    {
-        txt.color = from;
-    }
+        // Use this for initialization
+        protected override void OnAwake()
+        {
+            txt = GetComponent<Text>();
+        }
 
-    protected override void OnTweenUpdate()
-    {
-        txt.color = Color.Lerp( from , to , normalTime * curveValue );
-    }
+        protected override void OnOnEnable()
+        {
+            txt.color = realFrom;
+        }
 
-    public override void LoopMethod()
-    {
-        duringTime = 0f;
-        startTime = JTime.Time;
-    }
+        protected override void OnTweenUpdate()
+        {
+            txt.color = Lerp();
+        }
 
-    public override void PingpongMethod()
-    {
-        var temp = from;
-        from = to;
-        to = temp;
+        public override Color Lerp()
+        {
+            return Color.Lerp( realFrom , realTo , curveValue );
+        }
+
     }
 }

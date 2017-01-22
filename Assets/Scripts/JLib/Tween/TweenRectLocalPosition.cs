@@ -7,14 +7,8 @@ namespace JLib
 {
     [AddComponentMenu("JTween/TweenRectLocalPosition")]
     [RequireComponent(typeof(RectTransform))]
-    public class TweenRectLocalPosition : Tween
+    public class TweenRectLocalPosition : Tween<Vector3>
     {
-        [SerializeField]
-        Vector3 from = Vector3.zero;
-
-        [SerializeField]
-        Vector3 to = Vector3.zero;
-
         bool isValidate = true;
         protected override void OnAwake()
         {
@@ -33,26 +27,17 @@ namespace JLib
             }
             duringTime = 0;
             startTime = JTime.Time;
-            rectTransform.anchoredPosition = from;
+            rectTransform.anchoredPosition = realFrom;
         }
 
         protected override void OnTweenUpdate()
         {
-            Vector3 targetPosition = Vector3.Lerp(from, to, normalTime * curveValue);
-            rectTransform.anchoredPosition = targetPosition;
+            rectTransform.localPosition = Lerp();
         }
 
-        public override void PingpongMethod()
+        public override Vector3 Lerp()
         {
-            var temp = from;
-            from = to;
-            to = temp;
-        }
-
-        public override void LoopMethod()
-        {
-            duringTime = 0f;
-            startTime = JTime.Time;
+            return Vector3.Lerp(realFrom,realTo,curveValue);
         }
     }
 }

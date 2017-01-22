@@ -2,41 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using JLib;
+using System;
 
 namespace JLib
 {
-    [AddComponentMenu("JTween/TweenRotation")]
-    public class TweenRotation : Tween
+    [AddComponentMenu( "JTween/TweenRotation" )]
+    public class TweenRotation : Tween<Vector3>
     {
-        [SerializeField]
-        Vector3 from = Vector3.zero;
-        
-        [SerializeField]
-        Vector3 to = Vector3.zero;
-
-
         protected override void OnOnEnable()
         {
-            transform.rotation = Quaternion.Euler(from);
+            transform.rotation = Quaternion.Euler( realFrom );
         }
 
         protected override void OnTweenUpdate()
         {
-            Vector3 targetRotation = Vector3.Lerp(from, to, normalTime * curveValue);
-            transform.rotation = Quaternion.Euler( targetRotation );
+            transform.rotation = Quaternion.Euler( Lerp() );
         }
 
-        public override void LoopMethod()
+        public override Vector3 Lerp()
         {
-            startTime = JTime.Time;
-            duringTime = 0f;
-        }
-
-        public override void PingpongMethod()
-        {
-            var temp = from;
-            from = to;
-            to = temp;
+            return Vector3.Lerp( realFrom , realTo , curveValue );
         }
     }
 }

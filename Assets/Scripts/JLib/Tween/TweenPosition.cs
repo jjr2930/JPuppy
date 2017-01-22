@@ -6,38 +6,24 @@ using UnityEngine;
 namespace JLib
 {
     [AddComponentMenu("JTween/TweenPosition")]
-    public class TweenPosition : Tween
+    public class TweenPosition : Tween<Vector3>
     {
-        [SerializeField]
-        Vector3 from = Vector3.zero;
-
-        [SerializeField]
-        Vector3 to = Vector3.zero;
 
         protected override void OnOnEnable()
         {
-            transform.position = from;
+            transform.position = realFrom;
         }
 
         protected override void OnTweenUpdate()
         {
-            Vector3 targetPosition = Vector3.Lerp(from, to, normalTime * curveValue);
-            Debug.Log( normalTime * curveValue );
-            transform.position = targetPosition;
+            transform.position = Lerp();
         }
 
-
-        public override void LoopMethod()
+        public override Vector3 Lerp()
         {
-            duringTime = 0f;
-            startTime = JTime.Time;
+            return Vector3.Lerp(realFrom,realTo,curveValue);
         }
 
-        public override void PingpongMethod()
-        {
-            var temp = from;
-            from = to;
-            to = temp;
-        }
+
     }
 }
