@@ -14,18 +14,29 @@ namespace JLib
     }
 
     [System.Serializable]
-    public class LocalizeTableEditorDataList
+    public class LocalizeDataList : ITable<LocalizeData>
     {
-        public List<LocalizeTableEditorData> table = new List<LocalizeTableEditorData>();
+        public List<LocalizeData> List
+        {
+            get
+            {
+                return list;
+            }
 
+            set
+            {
+                list = value;
+            }
+        }
+        public List<LocalizeData> list = new List<LocalizeData>();
     }
 
     [System.Serializable]
-    public class LocalizeTableEditorData
+    public class LocalizeData
     {
         public string key;
         public List<string> list = new List<string>();
-        public LocalizeTableEditorData()
+        public LocalizeData()
         {
             key = "";
             for( int i = 0 ; i < ( int )Enum_Local.Max ; i++ )
@@ -67,12 +78,12 @@ namespace JLib
             TextAsset ta = JResources.Load<TextAsset>(localTablePath);
             string localJson = ta.text;
 
-            LocalizeTableEditorDataList tempTable = JsonUtility.FromJson<LocalizeTableEditorDataList>( localJson );
+            LocalizeDataList tempTable = JsonUtility.FromJson<LocalizeDataList>( localJson );
             int index = MapLocalizationToIndex(Application.systemLanguage);
-            for( int i = 0 ; i < tempTable.table.Count ; i++ )
+            for( int i = 0 ; i < tempTable.List.Count ; i++ )
             {
-                string key = tempTable.table[i].key;
-                string value = tempTable.table[i].list[index];
+                string key = tempTable.List[i].key;
+                string value = tempTable.List[i].list[index];
                 LocalizeTable.AddLocalString( key , value );
             }
 

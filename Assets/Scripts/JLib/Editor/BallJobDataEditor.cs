@@ -13,7 +13,8 @@ public class BallJobDataEditor : EditorWindow
     const int WIDTH_SLIDER = 300;
     const int WIDTH_DELETE_BTN_WIDTH = 25;
     const int DEFAULT_ELEMENT_DISTANCE = 10;
-    
+    const int COLUMN_COUNT = 5;
+
     string path = "Tables/BallJobTable";
     BallJobList jobList = null;
     Vector2 scroll = Vector2.zero;
@@ -112,9 +113,9 @@ public class BallJobDataEditor : EditorWindow
 
     void DrawCustomSilder(ref float minValue, ref float maxValue, int width)
     {
-        EditorGUILayout.LabelField( string.Format( "{0:f4}", minValue ), GUILayout.MaxWidth( 50 ) );
-        EditorGUILayout.MinMaxSlider( ref minValue, ref maxValue, 0f, 100f, GUILayout.MaxWidth( width - 100) );
-        EditorGUILayout.LabelField( string.Format( "{0:f4}", maxValue ), GUILayout.MaxWidth( 50 ) );
+        minValue = EditorGUILayout.FloatField( minValue, GUILayout.MaxWidth( 50 ) );
+        EditorGUILayout.MinMaxSlider( ref minValue, ref maxValue, 0f, 100f, GUILayout.MaxWidth( width - 100 ) );
+        maxValue = EditorGUILayout.FloatField( maxValue, GUILayout.MaxWidth( 50 ) );
     }
 
     void Initialize()
@@ -157,13 +158,14 @@ public class BallJobDataEditor : EditorWindow
 
     void Save()
     {
+        string fullPath = @"./Assets/Resources/" + path + ".txt";
         string json = JsonUtility.ToJson( jobList, true );
         Debug.Log( json );
         if( !File.Exists( path ) )
         {
-            var opened = File.Open( path, FileMode.OpenOrCreate );
+            var opened = File.Open( fullPath, FileMode.OpenOrCreate );
             opened.Close();
         }
-        File.WriteAllText( path, json );
+        File.WriteAllText( fullPath, json );
     }
 }
