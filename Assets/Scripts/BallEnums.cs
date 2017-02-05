@@ -7,14 +7,19 @@ public enum UserDataChange
     ActPoint,
     MaxActPoint,    
 }
-public enum DogDataChange
+public enum BallDataChange
 {
     None = 0,
-    똥마려움,
-    졸림,
-    배고픔,
-    심심함,
-    더러움,
+    Name,
+    Shit,
+    Sleepy,
+    Hungry,
+    Boring,
+    Dirty,
+    Diameter,
+    Gloss,
+    Elasticity,
+    Weight,
 }
 
 public enum DoAction
@@ -27,7 +32,7 @@ public enum DoAction
     배변치우기
 }
 
-public enum DogDesire
+public enum BallDesire
 {
     None = 0,
     똥마려움,

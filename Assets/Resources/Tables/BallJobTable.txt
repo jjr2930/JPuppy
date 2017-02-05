@@ -1,0 +1,1 @@
+{"list":[{"job":0,"minRadius":0.0,"maxRadius":0.0,"minWeight":0.0,"maxWeight":0.0,"minGloss":0.0,"maxGloss":0.0,"minElasticity":0.0,"maxElasticity":0.0}]}

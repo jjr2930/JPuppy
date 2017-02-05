@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class DesireData
 {
-    public DogDesire desire;
+    public BallDesire desire;
     public AnimationCurve curve;
 }
 public class DogDesireScheduler : MonoBehaviour
@@ -13,11 +13,11 @@ public class DogDesireScheduler : MonoBehaviour
     [SerializeField]
     List<DesireData> desireCurve = new List<DesireData>();
     [SerializeField]
-    DogData dogData = null;
+    BallData dogData = null;
 
     private void Awake()
     {
-        dogData = UserData.Instance.DogData;
+        dogData = UserData.Instance.BallDataㅠ;
     }
 
     /// <summary>
@@ -33,24 +33,24 @@ public class DogDesireScheduler : MonoBehaviour
             float value = desireCurve[ i ].curve.Evaluate( hour );
             switch( desireCurve[ i ].desire )
             {
-                case DogDesire.더러움:
-                    dogData.더러움 -= ( int )value;
+                case BallDesire.더러움:
+                    dogData.Dirty -= ( int )value;
                     break;
 
-                case DogDesire.똥마려움:
-                    dogData.똥마려움 -= ( int )value;
+                case BallDesire.똥마려움:
+                    dogData.Shit -= ( int )value;
                     break;
 
-                case DogDesire.배고픔:
-                    dogData.배고픔 -= ( int )value;
+                case BallDesire.배고픔:
+                    dogData.Hungry -= ( int )value;
                     break;
 
-                case DogDesire.심심함:
-                    dogData.심심함 -= ( int )value;
+                case BallDesire.심심함:
+                    dogData.Boring -= ( int )value;
                     break;
 
-                case DogDesire.졸림:
-                    dogData.졸림 -= ( int )value;
+                case BallDesire.졸림:
+                    dogData.Sleepy -= ( int )value;
                     break;
 
             }

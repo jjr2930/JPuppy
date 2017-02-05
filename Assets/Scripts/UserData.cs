@@ -42,11 +42,11 @@ public class UserData : JLib.MonoSingle<UserData>
         }
     }
 
-    public DogData DogData
+    public BallData BallDataㅠ
     {
         get
         {
-            return dogData;
+            return ballData;
         }
     }
 
@@ -57,11 +57,11 @@ public class UserData : JLib.MonoSingle<UserData>
     int maxActPoint;
 
     [SerializeField]
-    DogData dogData;
+    BallData ballData;
 
     private void Awake()
     {
-        dogData = new DogData();
+        ballData = new BallData();
     }
 
     public void ListenUserAction( object param )
