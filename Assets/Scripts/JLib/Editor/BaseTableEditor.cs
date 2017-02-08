@@ -186,18 +186,16 @@ namespace JLibEditor
         /// <param name="column">컬럼(열) 번호</param>
         /// <param name="data">해당 열의 데이터</param>
         protected abstract void OnGUI_Body_Element(int column, T2 data);
-
+        
         /// <summary>
         /// Unity JsonUtility is not supported generic like T, T1
         /// </summary>
         /// <returns>json</returns>
-        protected abstract string ToJson();
-
-
+        protected abstract string ToJson(); //must be deleted
         /// <summary>
         ///  Unity JsonUtility is not supported generic like T, T1
         /// </summary>
         /// <param name="json">json to be a object</param>
-        protected abstract void ToObject(string json);
+        protected abstract void ToObject(string json); //must be deleted
     }
 }
