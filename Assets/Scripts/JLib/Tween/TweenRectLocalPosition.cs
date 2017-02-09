@@ -32,7 +32,7 @@ namespace JLib
 
         protected override void OnTweenUpdate()
         {
-            rectTransform.localPosition = Lerp();
+            rectTransform.anchoredPosition = Lerp();
         }
 
         public override Vector3 Lerp()
