@@ -1,0 +1,30 @@
+{
+    "list": [
+        {
+            "job": 0,
+            "minRadius": 0.0,
+            "maxRadius": 4.31034517288208,
+            "minWeight": 0.0,
+            "maxWeight": 4.31034517288208,
+            "minGloss": 0.0,
+            "maxGloss": 5.1724138259887699,
+            "minElasticity": 0.0,
+            "maxElasticity": 4.31034517288208,
+            "potraitPath": "",
+            "descriptKey": ""
+        },
+        {
+            "job": 1,
+            "minRadius": 7.7586212158203129,
+            "maxRadius": 11.206896781921387,
+            "minWeight": 4.310344696044922,
+            "maxWeight": 7.75861930847168,
+            "minGloss": 9.482758522033692,
+            "maxGloss": 14.655172348022461,
+            "minElasticity": 11.206896781921387,
+            "maxElasticity": 17.241378784179689,
+            "potraitPath": "",
+            "descriptKey": ""
+        }
+    ]
+}

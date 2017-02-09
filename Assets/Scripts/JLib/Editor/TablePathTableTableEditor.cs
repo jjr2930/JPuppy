@@ -22,7 +22,7 @@ namespace JLibEditor
         public List<Data> tablesPath = new List<Data>();
     }
 
-
+    //must be inherited BaseTableEditor
     public class TablePathTableEditor : EditorWindow
     {
         const string tableParent = "Tables";

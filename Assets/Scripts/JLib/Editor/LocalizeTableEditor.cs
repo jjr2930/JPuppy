@@ -2,128 +2,80 @@
 using UnityEditor;
 using System.Collections.Generic;
 using JLib;
+using System;
+
 namespace JLibEditor
 {
- 
-    public class LocalizeTableEditor : EditorWindow
+    public class LocalizeTableEditor : BaseTableEditor<LocalizeDataList,LocalizeData>
     {
-        string path = "";
-        LocalizeTableEditorDataList table = null;
-        Vector2 scrollPos = Vector2.zero;
-
         [MenuItem( "Tools/TableEditor/LocalizeTable" )]
         static void ShowWindow()
         {
-            EditorWindow.GetWindow( typeof( LocalizeTableEditor ) );
-        }
+            var window = GetWindow<LocalizeTableEditor>();
+            window.Initialize();
 
-        void OnGUI()
+        }
+        
+        protected override void PreInitialze()
         {
-            CheckTableValidationAndInitial();
-            scrollPos = EditorGUILayout.BeginScrollView( scrollPos );
-            {
-                EditorGUILayout.BeginVertical();
-                {
-                    OnGUI_ColumnName();
-                    OnGUI_TableBody();
-                    OnGUI_ETC();
-                }
-                EditorGUILayout.EndVertical();
-            }
-            EditorGUILayout.EndScrollView();
+            tablePath = "Assets/Resources/Tables/LocalizeTable.txt";
+            COLUMN_COUNT = 4;   // key, korean, english, - button
         }
 
-        void OnGUI_ColumnName()
+        protected override void OnGUI_ComlumnName(int column)
         {
-            EditorGUILayout.BeginHorizontal();
+            switch( column )
             {
-                EditorGUILayout.LabelField( "Key" );
-                EditorGUILayout.LabelField( "Korean" );
-                EditorGUILayout.LabelField( "English" );
+                case 0:
+                    EditorGUILayout.LabelField( "Key" );
+                    break;
+
+                case 1:
+                    EditorGUILayout.LabelField( "Korean" );
+                    break;
+
+                case 2:
+                    EditorGUILayout.LabelField( "English" );
+                    break;
             }
-            EditorGUILayout.EndHorizontal();
         }
 
-        void OnGUI_TableBody()
+        protected override void OnGUI_Body_Element(  int column, LocalizeData data )
         {
-            for( int i = 0 ; i < table.table.Count ; i++ )
+            switch(column)
             {
+                case 0:
+                    data.key = EditorGUILayout.TextField( data.key,
+                        GUILayout.MinHeight(HEIGHT_SIZE),
+                        GUILayout.MaxHeight(HEIGHT_SIZE) );
+                    break;
 
-                EditorGUILayout.BeginVertical();
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    {
-                        table.table[ i ].key = EditorGUILayout.TextField( table.table[ i ].key );
-                        table.table[ i ].list[ ( int )Enum_Local.Korean ] = EditorGUILayout.TextField( table.table[ i ].list[ ( int )Enum_Local.Korean ] );
-                        table.table[ i ].list[ ( int )Enum_Local.English ] = EditorGUILayout.TextField( table.table[ i ].list[ ( int )Enum_Local.English ] );
-                        if( GUILayout.Button( "-" , GUILayout.MinWidth( 30 ) , GUILayout.MaxWidth( 30 ) ) )
-                        {
-                            DeleteItem( i );
-                        }
-                    }
-                    EditorGUILayout.EndHorizontal();
-                }
-                EditorGUILayout.EndVertical();
+                case 1:
+                    data.list[ 0 ] = EditorGUILayout.TextField( data.list[ 0 ],
+                        GUILayout.MinHeight( HEIGHT_SIZE ),
+                        GUILayout.MaxHeight( HEIGHT_SIZE ) );
+                    break;
+
+                case 2:
+                    data.list[ 1 ] = EditorGUILayout.TextField( data.list[ 1 ],
+                        GUILayout.MinHeight( HEIGHT_SIZE ),
+                        GUILayout.MaxHeight( HEIGHT_SIZE ) );
+                    break;              
+                    
             }
         }
 
-        void OnGUI_ETC()
+        protected override string ToJson()
         {
-            if( GUILayout.Button( "+" ) )
-            {
-                table.table.Add( new LocalizeTableEditorData() );
-            }
-
-            if( GUILayout.Button( "Save" ) )
-            {
-                Save();
-            }
+            LocalizeDataList obj = ( LocalizeDataList )table;
+            return JsonUtility.ToJson( obj );
         }
 
-        void DeleteItem( int index )
+        protected override void ToObject(string json)
         {
-            table.table.RemoveAt( index );
+            LocalizeDataList obj = JsonUtility.FromJson<LocalizeDataList>( json );
+            table = obj;
         }
 
-        void Save()
-        {
-            string json = JsonUtility.ToJson(table,true);
-            Debug.Log( json );
-            if( !System.IO.File.Exists( path ) )
-            {
-                var opened = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
-                opened.Close();
-            }
-            System.IO.File.WriteAllText( path , json );
-        }
-        void CheckTableValidationAndInitial()
-        {
-            if( null == table )
-            {
-                table = new LocalizeTableEditorDataList();
-            }
-
-            if( string.IsNullOrEmpty( path ) )
-            {
-                TextAsset txt =  AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Resources/Tables/TablePath.txt");
-                string json = txt.text;
-                TablePathList tpt = JsonUtility.FromJson<TablePathList>(json);
-                for( int i = 0 ; i < tpt.tablesPath.Count ; i++ )
-                {
-                    if( "LocalizeTable" == tpt.tablesPath[ i ].name )
-                    {
-                        path = "Assets/Resources/Tables/" + tpt.tablesPath[ i ].path + ".txt";
-                        if( !System.IO.File.Exists( path ) )
-                        {
-                            var opened = System.IO.File.Open(path, System.IO.FileMode.OpenOrCreate);
-                            opened.Close();
-                        }
-                        TextAsset localAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
-                        table = JsonUtility.FromJson<LocalizeTableEditorDataList>(localAsset.text);
-                        return;
-                    }
-                }
-            }
-        }
     }
 }
