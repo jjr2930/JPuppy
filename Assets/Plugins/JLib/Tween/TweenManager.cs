@@ -66,8 +66,8 @@ namespace JLib
 
         public void ListenDoTween( object parameter )
         {
-            ListenDoTweenParameter param = parameter as ListenDoTweenParameter;
-            if( null == param )
+            string param = parameter as string;
+            if( string.IsNullOrEmpty( param ) )
             {
                 Debug.LogErrorFormat( "TweenManger.ListenDoTween=> parameter({0}) is not ListenDoTweenParameter" ,
                     parameter.ToString() );
@@ -75,10 +75,10 @@ namespace JLib
             }
 
             ITween foundedTween = null;
-            if( !tweens.TryGetValue( param.tweenID, out foundedTween ) )
+            if( !tweens.TryGetValue( param, out foundedTween ) )
             {
                 Debug.LogErrorFormat( "TweenManger.ListenDoTween=> id: {0} is not founded" ,
-                    param.tweenID);
+                    param);
                 return;
             }
 

@@ -30,6 +30,48 @@ namespace JLib
             Instance.eventQueue.Enqueue( p );
         }
 
+        #region use default parameters
+        public static void EnQueueEvent( Enum eventName, int param)
+        {
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}" , eventName , param );
+            var p = JLib.ParameterPool.GetParameter<IntParameter>();
+            EnQueueEvent( eventName , p );
+        }
+
+        public static void EnQueueEvent( Enum eventName, bool param)
+        {
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}" , eventName , param );
+            var p = JLib.ParameterPool.GetParameter<BoolParameter>();
+            EnQueueEvent( eventName , p );
+        }
+
+        public static void EnQueueEvent( Enum eventName, float param)
+        {
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}" , eventName , param );
+            var p = JLib.ParameterPool.GetParameter<FloatParameter>();
+            EnQueueEvent( eventName , p );
+        }
+
+        public static void EnQueueEvent( Enum eventName , Vector3 param )
+        {
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}" , eventName , param );
+            var p = JLib.ParameterPool.GetParameter<Vector3Parameter>();
+            EnQueueEvent( eventName , p );
+        }
+
+        public static void EnQueueEvent( Enum eventName, Quaternion param)
+        {
+            Debug.LogFormat( "GlobalEventQueue.EnqueueEvent=> eventName : {0}, param : {1}" , eventName , param );
+            var p = JLib.ParameterPool.GetParameter<QuaternionParameter>();
+            EnQueueEvent( eventName , p );
+        }
+        #endregion
+
+
+
+
+
+
         /// <summary>
         /// 이벤트 넣기
         /// </summary>
@@ -38,6 +80,7 @@ namespace JLib
         {
             Instance.eventQueue.Enqueue( param );
         }
+
 
         /// <summary>
         /// 리스너를 등록한다.

@@ -83,7 +83,7 @@ public enum SmartObjectType
     Play
 }
 
-public enum DogAnimation
+public enum BallAnimation
 {
     None = 0,
     졸려,

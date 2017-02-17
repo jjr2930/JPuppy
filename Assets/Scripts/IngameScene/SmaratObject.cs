@@ -3,20 +3,20 @@ using System;
 using System.Collections.Generic;
 using JLib;
 
-public class SmaratObject : MonoBehaviour, JISmartObject
+public class SmaratObject : MonoBehaviour, JISmartObject<SmartObjectType,BallAnimation>
 {
     [SerializeField]
     Transform[] actionPoints = null;
 
     [SerializeField]
-    SmartObjectData[] data = null;
+    SmartObjectData<SmartObjectType,BallAnimation>[] data = null;
 
     void Awake()
     {
         actionPoints = transform.GetComponentsInChildren<Transform>();
     }
 
-    public SmartObjectData[] SmartObjectData
+    public SmartObjectData<SmartObjectType,BallAnimation>[] SmartObjectData
     {
         get { return data; }
 
@@ -42,7 +42,9 @@ public class SmaratObject : MonoBehaviour, JISmartObject
 
     public void OnCollisionEnter( Collision other )
     {
-        JSmartObjectParameter p = ParameterPool.GetParameter<JSmartObjectParameter>();
+        JSmartObjectParameter<SmartObjectType,BallAnimation> p 
+            = ParameterPool.GetParameter<JSmartObjectParameter<SmartObjectType,BallAnimation>>();
+
         p.actionPostions = ActionPositions;
         p.data = SmartObjectData;
         GlobalEventQueue.EnQueueEvent( DefaultEvent.EnterSmartObject , p );
