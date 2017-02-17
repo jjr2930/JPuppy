@@ -42,6 +42,16 @@ public enum BallDesire
     더러움,
     Max
 }
+
+/// <summary>
+/// 공의 행동을 위한 Enum
+/// </summary>
+public enum BallAction
+{
+    None = 0,
+    Move,
+    Stop,
+}
 public enum UIID
 {
     None,
