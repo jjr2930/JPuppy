@@ -24,7 +24,7 @@ public class ActionButton : JLib.JMonoBehaviour, JLib.IItem
     public void SetData( IItemData data )
     {
         this.data = data as ActionButtonData;
-        thumbnail.sprite = JResources.Load( this.data.imgName ) as Sprite;
+        //thumbnail.sprite = JResources.Load( this.data.imgName ) as Sprite;
         localComponent.Key = this.data.localName;
     }
 

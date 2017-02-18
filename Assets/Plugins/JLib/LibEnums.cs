@@ -53,6 +53,7 @@ namespace JLib
         DoTween,
         ShowTooltip,
         HideTooltip,
+        SetItemScrollRect,
         ShowEffect,
         AsycResourceLoad,
         EnterSmartObject
@@ -98,6 +99,15 @@ namespace JLib
         Normal,
         Pingpong,
         Loop
+    }
+
+    /// <summary>
+    /// 이곳에 값을 추가하거나 제거하여 ID를 만들 수 있다.
+    /// </summary>
+    public enum LibUIID
+    {
+        None = 0,
+        ActionButtonScroolRect,
     }
 
 }

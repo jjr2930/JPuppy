@@ -129,6 +129,11 @@ namespace JLib
                 {
                     founded.Invoke( p.value );
                     ParameterPool.ReturnPool( p );
+                    if(null != p.value )
+                    {
+                        ParameterPool.ReturnPool( p.value );
+                        p.value = null;
+                    }
                 }
                 else
                 {

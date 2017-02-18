@@ -27,10 +27,14 @@ namespace JLib
         string key = "";
 
         Text text = null;
-        void Start()
+        void Awake()
         {
             text = GetComponent<Text>();
-            text.text = LocalizeTable.GetLocalString(key);
+        }
+
+        private void Start()
+        {
+            text.text = LocalizeTable.GetLocalString( key );
         }
     }
 }

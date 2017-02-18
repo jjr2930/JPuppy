@@ -17,7 +17,7 @@ public class DogDesireScheduler : MonoBehaviour
 
     private void Awake()
     {
-        dogData = UserData.Instance.BallDataㅠ;
+        dogData = UserData.Instance.BallData;
     }
 
     /// <summary>
