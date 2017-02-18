@@ -103,7 +103,7 @@ namespace JLib
             }
             else
             {
-                Debug.LogErrorFormat( "LocalizeTable => {0} is not founded" , key );
+                Debug.LogWarningFormat( "LocalizeTable => {0} is not founded" , key );
             }
             return "";
         }

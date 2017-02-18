@@ -37,22 +37,22 @@ public class DynamicCreateActionList : MonoBehaviour {
         var p = param as CathegoryClickParameter;
         switch(p.id)
         {
-            case UIID.놀아주기버튼:
+            case UIID.PlayCathegory:
                 break;
 
-            case UIID.밥먹이기버튼:
+            case UIID.FeedCathegory:
                 break;
 
-            case UIID.배변치우기버튼:
+            case UIID.ShitCathegory:
                 break;
 
-            case UIID.씻기기버튼:
+            case UIID.WashCathegory:
                 break;
 
-            case UIID.옷입히기버튼:
+            case UIID.ClothCathegory:
                 break;
 
-            case UIID.재우기버튼:
+            case UIID.SleepCathegory:
                 break;
         }
     }

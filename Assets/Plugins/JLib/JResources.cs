@@ -7,8 +7,7 @@ using UnityEngine;
 namespace JLib
 {
     /// <summary> 
-    /// 싱글톤으로 구현할 경우 자기 재귀호출이 됨 왜냐면 Instance 함수에서 JResources.Load를 호출하는데, 이 때 JResources가 없다면 다시 JResource.LOad를 호출하여
-    /// 무한루프에 빠짐
+    /// 굳이 이클래스는 비쥬얼디버깅을 할게 없다. 직접 코드를 봐야한다
     /// </summary>
     public static class JResources 
     {

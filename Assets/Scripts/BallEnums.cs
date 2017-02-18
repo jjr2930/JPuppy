@@ -61,12 +61,12 @@ public enum UIID
     종료,
 
     //Ingame
-    밥먹이기버튼,
-    재우기버튼,
-    씻기기버튼,
-    놀아주기버튼,
-    배변치우기버튼,
-    옷입히기버튼
+    FeedCathegory,
+    SleepCathegory,
+    WashCathegory,
+    PlayCathegory,
+    ShitCathegory,
+    ClothCathegory
 
     
 }

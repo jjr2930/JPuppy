@@ -13,28 +13,63 @@ namespace JLib
         Right
     }
 
-    public interface iItemData
+    public interface IItemData
     {
 
     }
 
-    public interface iItem 
+    public interface IItem 
     {
-        void SetData( iItemData data );
-        RectTransform rectTransform { get; set; }
+        IItemData GetData();
+        void SetData( IItemData data );
+        RectTransform rectTransform { get; }
     }
 
     public class InfiniteList : JMonoBehaviour
     {
         public int countOfSee;
         public ScrollRect scrollRect = null;
+        public IItem Prefab = null;
+        public List<IItem> items = new List<IItem>();
+        public string path = "";
+        public Transform contents = null;
 
+        List<IItemData> itemData = null;
         RectTransform transScrollRect = null;
+        //디버깅을 위해 보여야함
+        [SerializeField]
+        int lastIndex;
 
-        List<iItem> items = null;
+        [SerializeField]
+        int firstIndex;
+
+        [SerializeField]
+        int itemCount;
+
+        [SerializeField]
+        int createdCount;
+
+
+        public void ListenClickCathegory(object param)
+        {
+           
+        }
         void Awake()
         {
             transScrollRect = scrollRect.transform as RectTransform;
+            createdCount = countOfSee + 2;
+        }
+
+        void Start()
+        {
+            UnityEngine.Object obj = JResources.Load( path );
+            for (int i = 0; i < createdCount; i++)
+            {
+                GameObject instance = Instantiate( obj ) as GameObject;
+                IItem item = instance.GetComponent<IItem>();
+                items.Add( item );
+                instance.transform.parent = contents;
+            }
         }
 
         void LateUpdate()
@@ -43,9 +78,15 @@ namespace JLib
             switch( where )
             {
                 case CollisionPosition.Left:
+                    lastIndex = Mathf.Clamp( ++lastIndex, 0, items.Count - 1 );
+                    InsertItemDataToItem( items[0], itemData[lastIndex] );
+                    MoveLeftEndToRightEnd();
                     break;
 
                 case CollisionPosition.Right:
+                    firstIndex = Mathf.Clamp( --firstIndex, 0, items.Count - 1 );
+                    InsertItemDataToItem( items.GetLast(), itemData[firstIndex] );
+                    MoveRightEndToLeftEnd();
                     break;
 
                 case CollisionPosition.None:
@@ -76,7 +117,7 @@ namespace JLib
             {
                 return CollisionPosition.Left;
             }
-
+            //drag to right and contact rightlimit
             if(items[items.Count - 2].rectTransform.rect.xMin<  transScrollRect.rect.xMax
                 && scrollRect.velocity.x >=0 )
             {
@@ -84,6 +125,11 @@ namespace JLib
             }
 
             return CollisionPosition.None;            
+        }
+
+        void InsertItemDataToItem(IItem item, IItemData data)
+        {
+            item.SetData( data );
         }
     }
 }

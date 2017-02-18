@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;   
 
 [System.Serializable]
 public class UserData : JLib.MonoSingle<UserData>
@@ -42,7 +43,7 @@ public class UserData : JLib.MonoSingle<UserData>
         }
     }
 
-    public BallData BallDataㅠ
+    public BallData BallData
     {
         get
         {
@@ -62,6 +63,7 @@ public class UserData : JLib.MonoSingle<UserData>
     private void Awake()
     {
         ballData = new BallData();
+        ///this is dummyData
     }
 
     public void ListenUserAction( object param )

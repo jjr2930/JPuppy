@@ -3,5 +3,5 @@ using System.Collections;
 
 public class CathegoryClickParameter 
 { 
-    public UIID id = UIID.밥먹이기버튼;
+    public UIID id = UIID.FeedCathegory;
 }
