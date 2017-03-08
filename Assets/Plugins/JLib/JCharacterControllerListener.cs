@@ -75,7 +75,7 @@ namespace JLib
 
         void LateUpdate()
         {
-            V3Extension.SetZero( ref moveAccel );
+            //V3Extension.SetZero( ref moveAccel );
             rotateFactor = 0f;
         }
 
